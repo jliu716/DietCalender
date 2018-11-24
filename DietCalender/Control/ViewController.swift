@@ -8,8 +8,13 @@
 
 import UIKit
 import JTAppleCalendar
+import SwipeCellKit
+import ChameleonFramework
+import RealmSwift
 
 class ViewController: UIViewController {
+    
+    let realm = try! Realm()
     
     // MARK: Outlets
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -40,12 +45,12 @@ class ViewController: UIViewController {
         }
     }
     
+    var totalEvents : Results<Event>?
     
     // MARK: Config
     let formatter = DateFormatter()
     let dateFormatterString = "yyyy MM dd"
     let numOfRowsInCalendar = 6
-    let numOfRandomEvent = 100
     let calendarCellIdentifier = "CellView"
     let scheduleCellIdentifier = "detail"
     
@@ -77,6 +82,8 @@ class ViewController: UIViewController {
         
         let gesturer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gesture:)))
         calendarView.addGestureRecognizer(gesturer)
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     @objc func handleLongPress(gesture : UILongPressGestureRecognizer) {
@@ -108,7 +115,36 @@ class ViewController: UIViewController {
         let year = Calendar.current.component(.year, from: startDate)
         title = "\(year) \(currentMonthSymbol)"
     }
+    
+    // MARK:- IB Actions
+    @IBAction func addButtonPressed(_ sender: Any) {
+        var input = UITextField()
+        
+        let alert = UIAlertController(title: "What did you eat?", message: "Enter name of the food", preferredStyle: .alert)
+        
+        // action:YES
+        let confirm = UIAlertAction(title: "Confirm", style: .default, handler: { (action) in    
+            // allocate item
+            let newItem = Event(value: ["isSafe":true,"title" : input.text!, "startTime": Date()])
+            
+            self.saveSomeObject(obejct: newItem)  
+        })
+        // action:NO
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "What did you eat?"
+            input = alertTextField
+        }
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
+
 
 // MARK: Helpers
 extension ViewController {
@@ -120,6 +156,21 @@ extension ViewController {
             calendarView.selectDates([Date()])
         } else {
             calendarView.selectDates([firstDateInMonth])
+        }
+    }
+    
+    // MARK:- SAVE AND LOAD 
+    func saveSomeObject (obejct theObject:Object) {
+        do {
+            try realm.write {
+                realm.add(theObject)
+            }
+            defer {
+//                let next : Int = (self.categories?.index(of: (theObject as! Category)))!
+//                self.tableView.insertRows(at: [IndexPath(item: next, section: 0)], with: .left)
+            }
+        }catch{
+            print("Error saving object to realm: \(error)")
         }
     }
 }
@@ -157,6 +208,7 @@ extension ViewController {
 // MARK: Prepere dataSource
 extension ViewController {
     func getSchedule() {
+        // fill schedule with events
         if let startDate = calendarView.visibleDates().monthDates.first?.date  {
             let endDate = Calendar.current.date(byAdding: .month, value: 1, to: startDate)
             getSchedule(fromDate: startDate, toDate: endDate!)
@@ -165,11 +217,21 @@ extension ViewController {
     
     
     func getSchedule(fromDate: Date, toDate: Date) {
+        
+        
+//        let yesterday = Event(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, food: "Banana", safe: false)
+//        let today = Event(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, food: "Pan Cake", safe: true)
+//        let abc = Event(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, food: "Milk", safe: false)
+//        let tomorrow = Event(date: Calendar.current.date(byAdding: .day, value: -6, to: Date())!, food: "pear", safe: false)
+//       
         var schedules: [Event] = []
-        for _ in 1...numOfRandomEvent {
-            schedules.append(Event(fromStartDate: fromDate))
+        
+        let allevent = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@", fromDate as CVarArg, toDate as CVarArg))
+        allevent.forEach { (x) in
+            schedules.append(x)
         }
         
+        // group events by day of month
         scheduleGroup = schedules.group{self.formatter.string(from: $0.startTime)}
     }
 }
@@ -184,17 +246,23 @@ extension ViewController {
         let cellHidden = cellState.dateBelongsTo != .thisMonth
         
         myCustomCell.isHidden = cellHidden
-        myCustomCell.selectedView.backgroundColor = UIColor.black
         
         if Calendar.current.isDateInToday(cellState.date) {
-            myCustomCell.selectedView.backgroundColor = UIColor.red
+            myCustomCell.selectedView.backgroundColor = UIColor.flatYellow
+        }else{
+            myCustomCell.selectedView.backgroundColor = UIColor.black
         }
         
         handleCellTextColor(view: myCustomCell, cellState: cellState)
         handleCellSelection(view: myCustomCell, cellState: cellState)
         
-        if scheduleGroup?[formatter.string(from: cellState.date)] != nil {
+        if let events = scheduleGroup?[formatter.string(from: cellState.date)] {
             myCustomCell.eventView.isHidden = false
+            let badDay = events.contains { (x) -> Bool in
+                return !x.isSafe
+            }
+            myCustomCell.eventView.backgroundColor = badDay ? UIColor.flatPurple : UIColor.flatYellow
+            myCustomCell.selectedView.backgroundColor = badDay ? UIColor.flatPurple : UIColor.flatYellow
         }
         else {
             myCustomCell.eventView.isHidden = true
@@ -221,7 +289,7 @@ extension ViewController {
                 view.dayLabel.textColor = UIColor.white
             }
             else {
-                view.dayLabel.textColor = UIColor.red
+                view.dayLabel.textColor = UIColor.flatYellow
             }
         }
     }
@@ -294,26 +362,56 @@ extension ViewController: JTAppleCalendarViewDelegate {
 }
 
 // MARK: UITableViewDataSource
-extension ViewController : UITableViewDataSource {
+extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTableViewCellDelegate{
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: scheduleCellIdentifier, for: indexPath) as! JLEventCell
         cell.selectionStyle = .none
         cell.event = events[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return events.count
     }
-}
-
-// MARK: UITableViewDelegate
-extension ViewController : UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 65
+    }
+    
+    // MARK:- 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let schedule = events[indexPath.row]
         
         print(schedule)
         print("schedule selected")
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        // initiate action when swipe from right
+        guard orientation == .left else { return nil }
+        
+        // grab the event
+        let event = events[indexPath.row]
+                
+        // delete
+        let deleteAction = SwipeAction(style: .destructive, title: nil) { action, indexPath in
+//            action.fulfill(with: ExpansionFulfillmentStyle.reset)
+        }
+        deleteAction.image = UIImage(named: "trash")
+        
+        // flag
+        let flagAction = SwipeAction(style: .default, title: nil) { action, indexPath in
+            event.isSafe = !event.isSafe
+            tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+            self.calendarView.reloadData()
+        }
+        flagAction.hidesWhenSelected = true
+        flagAction.image = UIImage(named: "flag")
+        flagAction.backgroundColor = (event.isSafe ?  UIColor.flatPurple : UIColor.flatYellow)
+        
+        return [deleteAction, flagAction]
     }
 }
 
