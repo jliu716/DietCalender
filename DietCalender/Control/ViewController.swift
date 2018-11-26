@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         }
     }
     
-    var events: [Event] {
+    @objc dynamic var events: [Event] {
         get {
             guard let selectedDate = calendarView.selectedDates.first else {
                 return []
@@ -119,7 +119,6 @@ class ViewController: UIViewController {
     // MARK:- IB Actions
     @IBAction func addButtonPressed(_ sender: Any) {
         var input = UITextField()
-        
         let alert = UIAlertController(title: "What did you eat?", message: "Enter name of the food", preferredStyle: .alert)
         
         // action:YES
@@ -127,7 +126,13 @@ class ViewController: UIViewController {
             // allocate item
             let newItem = Event(value: ["isSafe":true,"title" : input.text!, "startTime": Date()])
             
-            self.saveSomeObject(obejct: newItem)  
+            // find out time stamp for this date
+            let selectedDate : Date = self.calendarView.selectedDates[0] 
+            let startOfToday = Calendar.current.startOfDay(for: Date())
+            let diffInDays : Int = Calendar.current.dateComponents([.day], from: startOfToday, to:selectedDate).day!
+            newItem.startTime = Calendar.current.date(byAdding: .day, value: diffInDays, to: Date()) ?? Date()
+            
+            self.saveSomeObject(obejct: newItem)
         })
         // action:NO
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -164,10 +169,15 @@ extension ViewController {
         do {
             try realm.write {
                 realm.add(theObject)
+                self.getSchedule()
             }
             defer {
-//                let next : Int = (self.categories?.index(of: (theObject as! Category)))!
-//                self.tableView.insertRows(at: [IndexPath(item: next, section: 0)], with: .left)
+                if let next : Int = (self.events.index(of: (theObject as! Event))) {
+                    self.tableView.insertRows(at: [IndexPath(item: next, section: 0)], with: .left)                    
+                }else{
+                    self.tableView.reloadData()
+                    self.calendarView.reloadData()
+                }
             }
         }catch{
             print("Error saving object to realm: \(error)")
@@ -224,15 +234,14 @@ extension ViewController {
 //        let abc = Event(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, food: "Milk", safe: false)
 //        let tomorrow = Event(date: Calendar.current.date(byAdding: .day, value: -6, to: Date())!, food: "pear", safe: false)
 //       
-        var schedules: [Event] = []
         
-        let allevent = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@", fromDate as CVarArg, toDate as CVarArg))
-        allevent.forEach { (x) in
-            schedules.append(x)
-        }
+        totalEvents = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@", fromDate as CVarArg, toDate as CVarArg))
+//        totalEvents?.forEach { (x) in
+//            schedules.append(x)
+//        }
         
         // group events by day of month
-        scheduleGroup = schedules.group{self.formatter.string(from: $0.startTime)}
+        scheduleGroup = totalEvents?.group{self.formatter.string(from: $0.startTime)}
     }
 }
 
