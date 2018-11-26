@@ -16,9 +16,3 @@ class Event : Object{
     @objc dynamic var startTime: Date = Date()
     @objc dynamic var isSafe: Bool = true
 }
-
-extension Event : Comparable {
-    static func <(lhs: Event, rhs: Event) -> Bool {
-        return lhs.startTime < rhs.startTime
-    }
-}

@@ -31,18 +31,16 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc dynamic var events: [Event] {
-        get {
-            guard let selectedDate = calendarView.selectedDates.first else {
-                return []
-            }
-            
-            guard let data = scheduleGroup?[self.formatter.string(from: selectedDate)] else {
-                return []
-            }
-            
-            return data.sorted()
+    var events: [Event] {
+        guard let selectedDate = calendarView.selectedDates.first else {
+            return []
         }
+        
+        guard let data = scheduleGroup?[self.formatter.string(from: selectedDate)] else {
+            return []
+        }
+        
+        return data
     }
     
     var totalEvents : Results<Event>?
@@ -227,19 +225,7 @@ extension ViewController {
     
     
     func getSchedule(fromDate: Date, toDate: Date) {
-        
-        
-//        let yesterday = Event(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, food: "Banana", safe: false)
-//        let today = Event(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, food: "Pan Cake", safe: true)
-//        let abc = Event(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, food: "Milk", safe: false)
-//        let tomorrow = Event(date: Calendar.current.date(byAdding: .day, value: -6, to: Date())!, food: "pear", safe: false)
-//       
-        
-        totalEvents = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@", fromDate as CVarArg, toDate as CVarArg))
-//        totalEvents?.forEach { (x) in
-//            schedules.append(x)
-//        }
-        
+        totalEvents = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@", fromDate as CVarArg, toDate as CVarArg))        
         // group events by day of month
         scheduleGroup = totalEvents?.group{self.formatter.string(from: $0.startTime)}
     }
@@ -389,13 +375,21 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
         return 65
     }
     
-    // MARK:- 
+    // MARK:- table view cell interactions
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let schedule = events[indexPath.row]
         
         print(schedule)
         print("schedule selected")
     }
+    
+//    // MARK:-expansion
+//    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+//        var options = SwipeOptions()
+//        options.expansionStyle = .destructive
+//        options.transitionStyle = .border
+//        return options
+//    }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         // initiate action when swipe from right
@@ -406,15 +400,32 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
                 
         // delete
         let deleteAction = SwipeAction(style: .destructive, title: nil) { action, indexPath in
-//            action.fulfill(with: ExpansionFulfillmentStyle.reset)
+            do {
+                try self.realm.write({ 
+                    self.realm.delete(event)
+                    self.getSchedule()
+                })
+            }catch{print("Unable to delete this event due to: \n \(error)")}
         }
+        deleteAction.hidesWhenSelected = true
         deleteAction.image = UIImage(named: "trash")
         
         // flag
         let flagAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            event.isSafe = !event.isSafe
-            tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
-            self.calendarView.reloadData()
+            
+            do {
+                try self.realm.write({ 
+                     event.isSafe = !event.isSafe
+                })
+                defer {
+                    tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+                    self.calendarView.reloadData()
+                }
+            }catch{
+                print("Unable to flag this event due to: \n \(error)")
+            }
+           
+            
         }
         flagAction.hidesWhenSelected = true
         flagAction.image = UIImage(named: "flag")
