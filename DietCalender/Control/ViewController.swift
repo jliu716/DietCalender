@@ -146,6 +146,11 @@ class ViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func goToListView(_ sender: Any) {
+        self.performSegue(withIdentifier: "showFoodList", sender: self)
+    }
+    
+    
 }
 
 
