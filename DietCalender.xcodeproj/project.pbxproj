@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05181FD2DCC8F370B58F48B1 /* Pods_DietCalenderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80F0C7F0A0026F105999DC2 /* Pods_DietCalenderUITests.framework */; };
+		8418F86821AE56B200E4176F /* FoodListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418F86721AE56B200E4176F /* FoodListViewController.swift */; };
 		849264AC21A3EB2700AC39FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849264AB21A3EB2700AC39FA /* AppDelegate.swift */; };
 		849264AE21A3EB2700AC39FA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849264AD21A3EB2700AC39FA /* ViewController.swift */; };
 		849264B121A3EB2700AC39FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 849264AF21A3EB2700AC39FA /* Main.storyboard */; };
@@ -50,6 +51,7 @@
 		7BE6589F44B7D56D5B77E0F1 /* Pods_DietCalender.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DietCalender.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E8F7000C5CDC05E22011E84 /* Pods_DietCalenderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DietCalenderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F1A1029A86099946346B9B9 /* Pods-DietCalenderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DietCalenderTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DietCalenderTests/Pods-DietCalenderTests.release.xcconfig"; sourceTree = "<group>"; };
+		8418F86721AE56B200E4176F /* FoodListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodListViewController.swift; sourceTree = "<group>"; };
 		849264A821A3EB2700AC39FA /* DietCalender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DietCalender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849264AB21A3EB2700AC39FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		849264AD21A3EB2700AC39FA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				849264AD21A3EB2700AC39FA /* ViewController.swift */,
+				8418F86721AE56B200E4176F /* FoodListViewController.swift */,
 			);
 			path = Control;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84F5567021A50C3200CE4E6C /* JLEventCell.swift in Sources */,
+				8418F86821AE56B200E4176F /* FoodListViewController.swift in Sources */,
 				84EA0FE021A51528001CEC00 /* Extensions.swift in Sources */,
 				849264AE21A3EB2700AC39FA /* ViewController.swift in Sources */,
 				84F5566B21A50BD100CE4E6C /* JLCalenderCell.swift in Sources */,
