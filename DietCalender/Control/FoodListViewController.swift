@@ -17,6 +17,7 @@ class FoodListViewController: UIViewController {
     
     // TODO:- ib outlets
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     // TODO:- vars 
     
@@ -28,6 +29,7 @@ class FoodListViewController: UIViewController {
         super.viewDidLoad()
         
         // assign deletegates
+        self.searchBar.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
@@ -36,8 +38,12 @@ class FoodListViewController: UIViewController {
     }
     
     // TODO:- load foods 
-    func loadData(){
-        let totalEvents : Results<Event> = realm.objects(Event.self)
+    func loadData(with predicate:NSPredicate = NSPredicate(), filtered:Bool = false){
+        var totalEvents : Results<Event> = realm.objects(Event.self)
+        if (filtered){
+            totalEvents = totalEvents.filter(predicate)
+        }
+        foodGroup = []
         let group = totalEvents.group{$0.title.trimmingCharacters(in: CharacterSet.whitespaces).lowercased()}
         group.forEach { (arg: (key: String, value: [Event])) in            
             let (_, value) = arg
@@ -107,6 +113,18 @@ extension FoodListViewController: UITableViewDelegate {
 }
 
 extension FoodListViewController: UISearchBarDelegate {
+    
+    // TODO:- user is typing
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (!searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty){
+            loadData(with: NSPredicate(format: "title CONTAINS[cd] %@", searchText), filtered: true)
+        }else{
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+            self.loadData()
+        }
+    }
     
 }
 
