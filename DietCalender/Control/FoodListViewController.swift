@@ -28,10 +28,16 @@ class FoodListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.contentInset.top = 5.0
+        
         // assign deletegates
         self.searchBar.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        
+        // register nibs
+        let cellNib = UINib(nibName: "FoodStatsCell", bundle: Bundle.main)
+        tableView.register(cellNib, forCellReuseIdentifier: "FoodCell")
         
         // TODO:- configure looks
         self.loadData()
@@ -59,11 +65,11 @@ class FoodListViewController: UIViewController {
         
         // action:YES
         let white = UIAlertAction(title: "Whitelist Only", style: .default, handler: { (action) in    
-        
+            self.loadData(with: NSPredicate(format: "isSafe == YES"), filtered: true)
         })
         
         let black = UIAlertAction(title: "Blacklist Only", style: .default, handler: { (action) in    
-            
+            self.loadData(with: NSPredicate(format: "isSafe == NO"), filtered: true)
         })
         
         // action:NO
@@ -83,10 +89,6 @@ class FoodListViewController: UIViewController {
     
 }
 
-extension FoodListViewController: UIActionSheetDelegate {
-    
-}
-
 extension FoodListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(foodGroup.count)
@@ -94,12 +96,28 @@ extension FoodListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "FoodCell")!
+        let cell : FoodStatsCell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodStatsCell
         
+        // cell appearance
+        cell.safeScoreLabel.backgroundColor = UIColor.flatYellow
+        cell.unsafeScoreLabel.backgroundColor = UIColor.flatPurple
+        
+        cell.safeScoreLabel.layer.masksToBounds = true
+        cell.unsafeScoreLabel.layer.masksToBounds = true
+        cell.safeScoreLabel.layer.cornerRadius = cell.safeScoreLabel.bounds.width / 2.0
+        cell.unsafeScoreLabel.layer.cornerRadius = cell.unsafeScoreLabel.bounds.width / 2.0
+        
+        
+        // context
         let items : [Event] = foodGroup[indexPath.row]
         
-        cell.textLabel?.text = items[0].title
-        cell.detailTextLabel?.text = "\(items.count)"
+        cell.titleLabel.text = items[0].title
+        
+        let safeCount = items.group{$0.isSafe}[true]?.count
+        let unsafeCount = items.group{$0.isSafe}[false]?.count
+
+        cell.safeScoreLabel.text = "\(safeCount ?? 0)"
+        cell.unsafeScoreLabel.text = "\(unsafeCount ?? 0)"
 
         return cell
     
