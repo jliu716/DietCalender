@@ -91,17 +91,13 @@ class FoodListViewController: UIViewController {
 
 extension FoodListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(foodGroup.count)
         return foodGroup.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : FoodStatsCell = tableView.dequeueReusableCell(withIdentifier: "FoodCell") as! FoodStatsCell
-        
+
         // cell appearance
-        cell.safeScoreLabel.backgroundColor = UIColor.flatYellow
-        cell.unsafeScoreLabel.backgroundColor = UIColor.flatPurple
-        
         cell.safeScoreLabel.layer.masksToBounds = true
         cell.unsafeScoreLabel.layer.masksToBounds = true
         cell.safeScoreLabel.layer.cornerRadius = cell.safeScoreLabel.bounds.width / 2.0
@@ -118,6 +114,31 @@ extension FoodListViewController: UITableViewDataSource {
 
         cell.safeScoreLabel.text = "\(safeCount ?? 0)"
         cell.unsafeScoreLabel.text = "\(unsafeCount ?? 0)"
+        
+        // cell appearance
+        if ("\(safeCount ?? 0)" == "0") {
+            cell.safeScoreLabel.backgroundColor = UIColor.white
+            cell.safeScoreLabel.layer.borderWidth = 1
+            cell.safeScoreLabel.layer.borderColor = UIColor.flatYellow.cgColor
+            cell.safeScoreLabel.textColor = UIColor.flatYellow
+        }else{
+            cell.safeScoreLabel.backgroundColor = UIColor.flatYellow
+            cell.safeScoreLabel.layer.borderColor = UIColor.flatYellow.cgColor
+            cell.safeScoreLabel.textColor = UIColor.black
+        }
+        
+        if ("\(unsafeCount ?? 0)" == "0") {
+            cell.unsafeScoreLabel.backgroundColor = UIColor.white
+            cell.unsafeScoreLabel.layer.borderWidth = 1
+            cell.unsafeScoreLabel.layer.borderColor = UIColor.flatPurple.cgColor
+            cell.unsafeScoreLabel.textColor = UIColor.black
+        }else{
+            cell.unsafeScoreLabel.backgroundColor = UIColor.flatPurple
+            cell.unsafeScoreLabel.layer.borderColor = UIColor.flatPurple.cgColor
+            cell.unsafeScoreLabel.textColor = UIColor.white
+        }
+        
+        
 
         return cell
     
