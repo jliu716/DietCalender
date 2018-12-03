@@ -91,6 +91,7 @@ class FoodListViewController: UIViewController {
 
 extension FoodListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(foodGroup.count)
         return foodGroup.count
     }
     
@@ -116,6 +117,7 @@ extension FoodListViewController: UITableViewDataSource {
         cell.unsafeScoreLabel.text = "\(unsafeCount ?? 0)"
         
         // cell appearance
+//        print(safeCount)
         if ("\(safeCount ?? 0)" == "0") {
             cell.safeScoreLabel.backgroundColor = UIColor.white
             cell.safeScoreLabel.layer.borderWidth = 1
