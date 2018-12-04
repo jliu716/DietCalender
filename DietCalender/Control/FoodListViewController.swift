@@ -121,22 +121,22 @@ extension FoodListViewController: UITableViewDataSource {
         if ("\(safeCount ?? 0)" == "0") {
             cell.safeScoreLabel.backgroundColor = UIColor.white
             cell.safeScoreLabel.layer.borderWidth = 1
-            cell.safeScoreLabel.layer.borderColor = UIColor.flatYellow.cgColor
-            cell.safeScoreLabel.textColor = UIColor.flatYellow
+            cell.safeScoreLabel.layer.borderColor = UIColor.flatGreen.cgColor
+            cell.safeScoreLabel.textColor = UIColor.flatGreen
         }else{
-            cell.safeScoreLabel.backgroundColor = UIColor.flatYellow
-            cell.safeScoreLabel.layer.borderColor = UIColor.flatYellow.cgColor
-            cell.safeScoreLabel.textColor = UIColor.black
+            cell.safeScoreLabel.backgroundColor = UIColor.flatGreen
+            cell.safeScoreLabel.layer.borderColor = UIColor.flatGreen.cgColor
+            cell.safeScoreLabel.textColor = UIColor.white
         }
         
         if ("\(unsafeCount ?? 0)" == "0") {
             cell.unsafeScoreLabel.backgroundColor = UIColor.white
             cell.unsafeScoreLabel.layer.borderWidth = 1
-            cell.unsafeScoreLabel.layer.borderColor = UIColor.flatPurple.cgColor
-            cell.unsafeScoreLabel.textColor = UIColor.black
+            cell.unsafeScoreLabel.layer.borderColor = UIColor.flatRed.cgColor
+            cell.unsafeScoreLabel.textColor = UIColor.flatRed
         }else{
-            cell.unsafeScoreLabel.backgroundColor = UIColor.flatPurple
-            cell.unsafeScoreLabel.layer.borderColor = UIColor.flatPurple.cgColor
+            cell.unsafeScoreLabel.backgroundColor = UIColor.flatRed
+            cell.unsafeScoreLabel.layer.borderColor = UIColor.flatRed.cgColor
             cell.unsafeScoreLabel.textColor = UIColor.white
         }
         

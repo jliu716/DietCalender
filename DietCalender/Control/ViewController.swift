@@ -248,7 +248,7 @@ extension ViewController {
         myCustomCell.isHidden = cellHidden
         
         if Calendar.current.isDateInToday(cellState.date) {
-            myCustomCell.selectedView.backgroundColor = UIColor.flatYellow
+            myCustomCell.selectedView.backgroundColor = UIColor.flatGreen
         }else{
             myCustomCell.selectedView.backgroundColor = UIColor.black
         }
@@ -261,8 +261,8 @@ extension ViewController {
             let badDay = events.contains { (x) -> Bool in
                 return !x.isSafe
             }
-            myCustomCell.eventView.backgroundColor = badDay ? UIColor.flatPurple : UIColor.flatYellow
-            myCustomCell.selectedView.backgroundColor = badDay ? UIColor.flatPurple : UIColor.flatYellow
+            myCustomCell.eventView.backgroundColor = badDay ? UIColor.flatRed : UIColor.flatGreen
+            myCustomCell.selectedView.backgroundColor = badDay ? UIColor.flatRed : UIColor.flatGreen
         }
         else {
             myCustomCell.eventView.isHidden = true
@@ -289,7 +289,7 @@ extension ViewController {
                 view.dayLabel.textColor = UIColor.white
             }
             else {
-                view.dayLabel.textColor = UIColor.flatYellow
+                view.dayLabel.textColor = UIColor.flatGreen
             }
         }
     }
@@ -434,7 +434,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
         }
         flagAction.hidesWhenSelected = true
         flagAction.image = UIImage(named: "flag")
-        flagAction.backgroundColor = (event.isSafe ?  UIColor.flatPurple : UIColor.flatYellow)
+        flagAction.backgroundColor = (event.isSafe ?  UIColor.flatRed : UIColor.flatGreen)
         
         return [deleteAction, flagAction]
     }

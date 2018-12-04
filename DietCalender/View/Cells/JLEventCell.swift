@@ -26,7 +26,7 @@ class JLEventCell: SwipeTableViewCell {
             dateFormatter.dateFormat = "HH:mm"
             
             startTimeLabel.text = dateFormatter.string(from: event.startTime)
-            categoryLine.backgroundColor = event.isSafe ? UIColor.flatYellow : UIColor.flatPurple 
+            categoryLine.backgroundColor = event.isSafe ? UIColor.flatGreen : UIColor.flatRed
         }
     }
     
