@@ -8,9 +8,10 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -25,13 +26,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Realm Initiation Error: \(error)")
         }
         
+        askForAllowNotification()
+        
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-            
+        // schedule notifications for tomorrow
+        
+        scheduleNotificationForTomorrow()
+        
+        print("successfully scheduled notification!")
+    }
+    
+    func scheduleNotificationForTomorrow(){
+        // fetch latest food had from realm, if it is in today
+        let food = "KFC Fried Chicken"
+        
+        // create notification
+        let content = UNMutableNotificationContent()
+        
+        //adding title, subtitle, body and badge
+        content.title = "How was the \(food) you had yesterday?"
+        content.subtitle = "Food Rating"
+        content.body = "\(food)"
+        content.badge = 1
+        
+        //it will be called after 5 seconds
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        
+        //getting the notification request
+        let request = UNNotificationRequest(identifier: "joytest", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        //adding the notification to notification center
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    func askForAllowNotification(){
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { (settings) in
+            if(settings.authorizationStatus != .authorized)
+            {
+                print("Push not authorized yet")
+                //requesting for authorization
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
+                    print("Fail to get notification allowed")
+                })
+            }
+            else
+            {
+                print("Push notification enabled!")
+            }
+        }
+    }
+    
+    func hasNotificationBeenScheduled() -> Bool {
+        
+        
+        
+        return false
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
