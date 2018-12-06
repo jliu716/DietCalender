@@ -14,9 +14,17 @@ import UserNotifications
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
-
-
+    let formatter = DateFormatter()
+    let dateFormatterString = "yyyy MM dd"
+    
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // configure dateformatter
+        formatter.dateFormat = dateFormatterString
+        formatter.timeZone = Calendar.current.timeZone
+        formatter.locale = Calendar.current.locale
+        
         // Override point for customization after application launch.
         
         do {
@@ -26,44 +34,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("Realm Initiation Error: \(error)")
         }
         
+        // notifi
         askForAllowNotification()
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
         
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         // schedule notifications for tomorrow
         
         scheduleNotificationForTomorrow()
         
-        print("successfully scheduled notification!")
     }
+    
+    // MARK:- HANDLE NOTIFICATIONS
     
     func scheduleNotificationForTomorrow(){
         // fetch latest food had from realm, if it is in today
-        let food = "KFC Fried Chicken"
-        
-        // create notification
-        let content = UNMutableNotificationContent()
-        
-        //adding title, subtitle, body and badge
-        content.title = "How was the \(food) you had yesterday?"
-        content.subtitle = "Food Rating"
-        content.body = "\(food)"
-        content.badge = 1
-        
-        //it will be called after 5 seconds
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        
-        //getting the notification request
-        let request = UNNotificationRequest(identifier: "joytest", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().delegate = self
-        
-        //adding the notification to notification center
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        var food = "KFC Fried Chicken"
+        do {
+            let realm = try Realm()
+            if let foodLast = realm.objects(Event.self).sorted(byKeyPath: "startTime").first {
+                food = foodLast.title
+                
+                let notificationID : String = self.formatter.string(from: foodLast.startTime)
+                
+                // create notification
+                let content = UNMutableNotificationContent()
+                
+                //adding title, subtitle, body and badge
+                content.title = "\(food)"
+                content.body = "Do you want to whitelist \(food) you had yesterday?"
+                content.badge = 1
+                content.sound = UNNotificationSound.defaultCritical
+                
+                //it will be called after 5 seconds
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+                
+                //getting the notification request
+                let request = UNNotificationRequest(identifier: "\(notificationID)", content: content, trigger: trigger)
+                
+                UNUserNotificationCenter.current().delegate = self
+                
+                //adding the notification to notification center
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                    if let error = error {
+                        print("can't add notification due to:\n\t\(error)")
+                    }else{
+                        print("notification added:\n\t\(notificationID)\t")
+                    }
+                })
+                
+            }
+        } catch {
+            print("Realm Initiation Error: \(error)")
+        }
     }
     
     func askForAllowNotification(){
@@ -90,6 +117,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         return false
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        // potentially useful contents of response
+        /*
+        response.actionIdentifier
+        response.notification.date
+        response.notification.request.content.badge
+        response.notification.request.identifier
+        */
+        print("user reacted to notification:\n\(response)")
+    }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
@@ -101,7 +140,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        print("application becomes active!")
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

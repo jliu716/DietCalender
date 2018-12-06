@@ -15,6 +15,7 @@ class JLCalenderCell: JTAppleCell {
         super.awakeFromNib()
         // Initialization code
     }
+    @IBOutlet weak var notificationBadge: UILabel!
     
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var eventView: UIView!

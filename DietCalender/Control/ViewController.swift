@@ -230,7 +230,7 @@ extension ViewController {
     
     
     func getSchedule(fromDate: Date, toDate: Date) {
-        totalEvents = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@", fromDate as CVarArg, toDate as CVarArg))        
+        totalEvents = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@", fromDate as CVarArg, toDate as CVarArg))
         // group events by day of month
         scheduleGroup = totalEvents?.group{self.formatter.string(from: $0.startTime)}
     }
@@ -239,8 +239,33 @@ extension ViewController {
 
 // MARK: CalendarCell's ui config
 extension ViewController {
+    
+    func numberOfUnratedEntriesForDate(date : Date) -> Int {
+        
+        let startDate = date
+        let endDate = NSCalendar.current.date(byAdding: .hour, value: 24, to: startDate)
+        let events = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@ AND isRated == NO", startDate as CVarArg, endDate! as CVarArg))
+        return events.count
+    }
+    
     func configureCell(view: JTAppleCell?, cellState: CellState) {
         guard let myCustomCell = view as? JLCalenderCell else { return }
+        
+        let numberLabel : UILabel = myCustomCell.notificationBadge
+        numberLabel.layer.masksToBounds = true
+        numberLabel.layer.cornerRadius = numberLabel.bounds.width / 2.0
+        
+        if !NSCalendar.current.isDateInToday(cellState.date) {
+            let number = numberOfUnratedEntriesForDate(date: cellState.date)
+            if ("\(number)" != "0"){
+                numberLabel.isHidden = false
+                print("\(numberLabel.isHidden)")
+                numberLabel.text = "\(number)"
+            }else{
+                numberLabel.isHidden = true
+            }
+        }
+        
         
         myCustomCell.dayLabel.text = cellState.text
         let cellHidden = cellState.dateBelongsTo != .thisMonth
@@ -352,6 +377,10 @@ extension ViewController: JTAppleCalendarViewDelegate {
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         configureCell(view: cell, cellState: cellState)
+        
+        // TODO:-clear the notification label if is on
+        clearNotificationBadgeForDate(date : date)
+        
         tableView.reloadData()
         tableView.contentOffset = CGPoint()
     }
