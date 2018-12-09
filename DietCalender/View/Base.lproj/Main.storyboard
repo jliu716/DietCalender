@@ -200,10 +200,10 @@
             </objects>
             <point key="canvasLocation" x="2015.2" y="137.18140929535232"/>
         </scene>
-        <!--Experiments-->
+        <!--Food Experiments-->
         <scene sceneID="iFZ-QJ-ioo">
             <objects>
-                <viewController storyboardIdentifier="FoodListViewController" title="Experiments" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iv1-tW-lyT" customClass="FoodListViewController" customModule="DietCalender" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FoodListViewController" title="Food Experiments" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iv1-tW-lyT" customClass="FoodListViewController" customModule="DietCalender" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fQV-bs-ygk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
