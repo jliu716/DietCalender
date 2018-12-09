@@ -2,6 +2,7 @@ PODS:
   - ChameleonFramework/Default (2.1.0)
   - ChameleonFramework/Swift (2.1.0):
     - ChameleonFramework/Default
+  - FontAwesome.swift (1.4.6)
   - JTAppleCalendar (7.1.6)
   - Realm (3.11.2):
     - Realm/Headers (= 3.11.2)
@@ -12,12 +13,14 @@ PODS:
 
 DEPENDENCIES:
   - ChameleonFramework/Swift (from `https://github.com/ViccAlexander/Chameleon.git`)
+  - FontAwesome.swift
   - JTAppleCalendar (from `https://github.com/patchthecode/JTAppleCalendar.git`, branch `master`)
   - RealmSwift
   - SwipeCellKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - FontAwesome.swift
     - Realm
     - RealmSwift
     - SwipeCellKit
@@ -39,11 +42,12 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  FontAwesome.swift: 18fb500c0decc2bbfadf2ae16a936704ec2c49bd
   JTAppleCalendar: abb30678f42a4ef8a340a932b1dcb8c85a33dac2
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
   RealmSwift: 12b8262fc08020b47de4fd88eb3d5c9425b34ec7
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
 
-PODFILE CHECKSUM: 0c0c9be044f53f429ae600ad3172ee21d589063d
+PODFILE CHECKSUM: 5528bb419238c2eb6a0b1e7610a8b37449ddc1e3
 
 COCOAPODS: 1.5.3

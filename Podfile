@@ -17,6 +17,8 @@ target 'DietCalender' do
 
 	  # colorpalette
 	  pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
+	
+	  pod 'FontAwesome.swift'
 
   target 'DietCalenderTests' do
     inherit! :search_paths

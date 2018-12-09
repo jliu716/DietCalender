@@ -11,6 +11,7 @@ import JTAppleCalendar
 import SwipeCellKit
 import ChameleonFramework
 import RealmSwift
+import FontAwesome_swift
 
 class ViewController: UIViewController {
     
@@ -462,7 +463,10 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
             }catch{print("Unable to delete this event due to: \n \(error)")}
         }
         deleteAction.hidesWhenSelected = true
-        deleteAction.image = UIImage(named: "trash")
+        deleteAction.font = UIFont.fontAwesome(ofSize: 30, style: FontAwesomeStyle.solid)
+        deleteAction.title = String.fontAwesomeIcon(name: FontAwesome.trashAlt)
+        deleteAction.textColor = UIColor.flatBlack
+        deleteAction.backgroundColor = UIColor.flatWhite
         
         // flag
         let flagAction = SwipeAction(style: .default, title: nil) { action, indexPath in
@@ -482,8 +486,10 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
             
         }
         flagAction.hidesWhenSelected = true
-        flagAction.image = UIImage(named: "flag")
-        flagAction.backgroundColor = (event.isSafe ?  UIColor.flatRed : UIColor.flatGreen)
+        flagAction.font = UIFont.fontAwesome(ofSize: 30, style: FontAwesomeStyle.solid)
+        flagAction.title = (event.isSafe ?  String.fontAwesomeIcon(name: FontAwesome.frown) : String.fontAwesomeIcon(name: FontAwesome.smile))
+        flagAction.textColor = (event.isSafe ?  UIColor.flatRed : UIColor.flatGreen)
+        flagAction.backgroundColor = UIColor.flatWhite
         
         return [deleteAction, flagAction]
     }
