@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
+    @IBOutlet weak var addButton: UIBarButtonItem!
     
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
     
@@ -394,6 +395,14 @@ extension ViewController: JTAppleCalendarViewDelegate {
         
         tableView.reloadData()
         tableView.contentOffset = CGPoint()
+        
+        // if date is in future, disable addButton
+        let testcase = NSCalendar.current.compare(date, to: Date(), toGranularity: Calendar.Component.hour).rawValue
+        if (testcase == 1){
+            addButton.isEnabled = false
+        }else{
+            addButton.isEnabled = true
+        }
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {

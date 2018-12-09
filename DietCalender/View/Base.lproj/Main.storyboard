@@ -187,6 +187,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="November 2018" id="YZE-cN-6cE"/>
                     <connections>
+                        <outlet property="addButton" destination="evB-kQ-HyQ" id="NUe-B0-G4e"/>
                         <outlet property="calendarView" destination="Vaa-MU-MnY" id="9xH-69-XtY"/>
                         <outlet property="separatorViewTopConstraint" destination="yt3-rs-AV6" id="hhh-iB-UL3"/>
                         <outlet property="showTodayButton" destination="mWI-W8-cES" id="BEf-YC-F0o"/>
@@ -229,7 +230,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="507"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" id="yh4-PQ-WHW">
+                                <searchBar key="tableHeaderView" contentMode="redraw" misplaced="YES" searchBarStyle="minimal" id="yh4-PQ-WHW">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
