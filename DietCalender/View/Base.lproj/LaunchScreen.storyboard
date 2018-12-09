@@ -18,22 +18,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DietCalender" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="BOY-kp-5vy">
-                                <rect key="frame" x="0.0" y="312" width="375" height="43"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DietCalender" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="BOY-kp-5vy">
+                                <rect key="frame" x="0.0" y="346" width="430" height="33"/>
+                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="27"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Copyright © 2018 Jiayi Liu. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="k4G-XG-S6s">
-                                <rect key="frame" x="28" y="626" width="319" height="21"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2018 Jiayi Liu. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="k4G-XG-S6s">
+                                <rect key="frame" x="28" y="707" width="374" height="15"/>
+                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icons8-calendar-27-100" translatesAutoresizingMaskIntoConstraints="NO" id="aKC-Na-hgd">
+                                <rect key="frame" x="184" y="316" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="EHk-y5-Uy0"/>
+                                    <constraint firstAttribute="width" constant="75" id="l9y-ZA-Xxy"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BOY-kp-5vy" firstAttribute="top" secondItem="aKC-Na-hgd" secondAttribute="bottom" constant="8" id="5yN-c1-i1F"/>
+                            <constraint firstItem="BOY-kp-5vy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8ea-Sd-VHO"/>
+                            <constraint firstItem="BOY-kp-5vy" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Bz5-Qf-xeW"/>
+                            <constraint firstItem="aKC-Na-hgd" firstAttribute="centerX" secondItem="BOY-kp-5vy" secondAttribute="centerX" id="Ex0-wS-zvp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="k4G-XG-S6s" secondAttribute="bottom" constant="44" id="MMe-V4-3eX"/>
+                            <constraint firstItem="aKC-Na-hgd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="243" id="Oek-oQ-eDf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="k4G-XG-S6s" secondAttribute="trailing" constant="28" id="dIu-by-NLZ"/>
+                            <constraint firstItem="k4G-XG-S6s" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="28" id="mV1-6A-HDS"/>
+                            <constraint firstItem="BOY-kp-5vy" firstAttribute="top" secondItem="aKC-Na-hgd" secondAttribute="bottom" constant="8" id="rGK-Pr-guZ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -42,4 +58,7 @@
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icons8-calendar-27-100" width="75" height="75"/>
+    </resources>
 </document>
