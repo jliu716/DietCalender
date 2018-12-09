@@ -52,41 +52,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // MARK:- HANDLE NOTIFICATIONS
     
     func scheduleNotificationForTomorrow(){
-        // fetch latest food had from realm, if it is in today
-        var food = "KFC Fried Chicken"
+        var food = "KFC"
         do {
             let realm = try Realm()
-            if let foodLast = realm.objects(Event.self).sorted(byKeyPath: "startTime").first {
-                food = foodLast.title
-                
-                let notificationID : String = self.formatter.string(from: foodLast.startTime)
-                
-                // create notification
-                let content = UNMutableNotificationContent()
-                
-                //adding title, subtitle, body and badge
-                content.title = "\(food)"
-                content.body = "Do you want to whitelist \(food) you had yesterday?"
-                content.badge = 1
-                content.sound = UNNotificationSound.defaultCritical
-                
-                //it will be called after 5 seconds
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-                
-                //getting the notification request
-                let request = UNNotificationRequest(identifier: "\(notificationID)", content: content, trigger: trigger)
-                
-                UNUserNotificationCenter.current().delegate = self
-                
-                //adding the notification to notification center
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
-                    if let error = error {
-                        print("can't add notification due to:\n\t\(error)")
-                    }else{
-                        print("notification added:\n\t\(notificationID)\t")
-                    }
-                })
-                
+            // find latest unrated food entry
+            if let foodLast = realm.objects(Event.self).filter(NSPredicate(format: "isRated == NO")).sorted(byKeyPath: "startTime").first {
+                // is it today
+                if (NSCalendar.current.isDateInToday(foodLast.startTime)) {
+                    food = foodLast.title
+                    let notificationID : String = self.formatter.string(from: foodLast.startTime)
+                    
+                    // create notification
+                    let content = UNMutableNotificationContent()
+                    
+                    //adding title, subtitle, body and badge
+                    content.title = "\(food)"
+                    content.body = "Do you want to whitelist \(food) you had yesterday?"
+                    content.badge = 1
+                    content.sound = UNNotificationSound.defaultCritical
+                    
+                    //it will be triggered after 20 hours
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600*20, repeats: false)
+                    
+                    //getting the notification request
+                    let request = UNNotificationRequest(identifier: "\(notificationID)", content: content, trigger: trigger)
+                    
+                    UNUserNotificationCenter.current().delegate = self
+                    
+                    //adding the notification to notification center
+                    UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error) in
+                        if let error = error {
+                            print("can't add notification due to:\n\t\(error)")
+                        }else{
+                            print("notification added:\n\t\(notificationID)\t")
+                        }
+                    })
+                }
             }
         } catch {
             print("Realm Initiation Error: \(error)")
@@ -109,13 +110,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 print("Push notification enabled!")
             }
         }
-    }
-    
-    func hasNotificationBeenScheduled() -> Bool {
-        
-        
-        
-        return false
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
