@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
     @IBOutlet weak var addButton: UIBarButtonItem!
+    @IBOutlet weak var listButton: UIBarButtonItem!
+    
     
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
     
@@ -75,6 +77,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        drawButtons()
         setupViewNibs()
         showTodayButton.target = self
         showTodayButton.action = #selector(showTodayWithAnimate)
@@ -84,6 +87,15 @@ class ViewController: UIViewController {
         calendarView.addGestureRecognizer(gesturer)
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func drawButtons() {
+//        let listImage : UIImage = UIImage.fontAwesomeIcon(name: FontAwesome.bars, style: FontAwesomeStyle.solid, textColor: UIColor.black, size: CGSize(width: 24, height: 24), backgroundColor: UIColor.clear)
+//        listButton.title = ""
+//        listButton.setBackgroundImage(listImage, for: UIControl.State.normal, barMetrics: UIBarMetrics.default)
+        
+        listButton.title = String.fontAwesomeIcon(name: FontAwesome.bars)
+        listButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
     }
     
     @objc func handleLongPress(gesture : UILongPressGestureRecognizer) {
@@ -463,10 +475,13 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
             }catch{print("Unable to delete this event due to: \n \(error)")}
         }
         deleteAction.hidesWhenSelected = true
-        deleteAction.font = UIFont.fontAwesome(ofSize: 30, style: FontAwesomeStyle.solid)
-        deleteAction.title = String.fontAwesomeIcon(name: FontAwesome.trashAlt)
-        deleteAction.textColor = UIColor.flatBlack
-        deleteAction.backgroundColor = UIColor.flatWhite
+        deleteAction.image = UIImage(named: "trash")
+        deleteAction.backgroundColor = UIColor.flatGrayDark
+        
+//        deleteAction.font = UIFont.fontAwesome(ofSize: 30, style: FontAwesomeStyle.solid)
+//        deleteAction.title = String.fontAwesomeIcon(name: FontAwesome.trash)
+//        deleteAction.textColor = UIColor.flatBlack
+//        deleteAction.backgroundColor = UIColor.flatWhite
         
         // flag
         let flagAction = SwipeAction(style: .default, title: nil) { action, indexPath in
@@ -486,10 +501,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
             
         }
         flagAction.hidesWhenSelected = true
-        flagAction.font = UIFont.fontAwesome(ofSize: 30, style: FontAwesomeStyle.solid)
-        flagAction.title = (event.isSafe ?  String.fontAwesomeIcon(name: FontAwesome.frown) : String.fontAwesomeIcon(name: FontAwesome.smile))
-        flagAction.textColor = (event.isSafe ?  UIColor.flatRed : UIColor.flatGreen)
-        flagAction.backgroundColor = UIColor.flatWhite
+        flagAction.image = UIImage(named: "flag")
+        flagAction.backgroundColor = (event.isSafe ?  UIColor.flatRed : UIColor.flatGreen)
         
         return [deleteAction, flagAction]
     }

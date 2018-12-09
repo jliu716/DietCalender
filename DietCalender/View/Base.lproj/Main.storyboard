@@ -152,7 +152,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="czM-9A-1ku"/>
-                                    <barButtonItem systemItem="search" id="X20-Vl-h2t">
+                                    <barButtonItem title="List" id="X20-Vl-h2t">
                                         <connections>
                                             <action selector="goToListView:" destination="98U-62-vGX" id="yVp-dE-emc"/>
                                         </connections>
@@ -189,6 +189,7 @@
                     <connections>
                         <outlet property="addButton" destination="evB-kQ-HyQ" id="NUe-B0-G4e"/>
                         <outlet property="calendarView" destination="Vaa-MU-MnY" id="9xH-69-XtY"/>
+                        <outlet property="listButton" destination="X20-Vl-h2t" id="Xo2-yj-HSI"/>
                         <outlet property="separatorViewTopConstraint" destination="yt3-rs-AV6" id="hhh-iB-UL3"/>
                         <outlet property="showTodayButton" destination="mWI-W8-cES" id="BEf-YC-F0o"/>
                         <outlet property="tableView" destination="dsb-ii-Mou" id="jAT-Yx-eRg"/>
@@ -210,15 +211,14 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mVT-Nh-uV5">
                                 <rect key="frame" x="0.0" y="507" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
-                                    <barButtonItem systemItem="reply" id="Foa-xc-u9R">
+                                    <barButtonItem title="back" id="Foa-xc-u9R">
                                         <connections>
                                             <action selector="goToCalenderPressed:" destination="iv1-tW-lyT" id="zUC-A6-AUy"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Iwa-Ce-y8M"/>
-                                    <barButtonItem systemItem="organize" id="Nt7-LR-N2l">
+                                    <barButtonItem title="Filter" id="Nt7-LR-N2l">
                                         <connections>
                                             <action selector="filterPressed:" destination="iv1-tW-lyT" id="RG5-oC-Gv8"/>
                                         </connections>
@@ -267,6 +267,8 @@
                         <viewLayoutGuide key="safeArea" id="jvj-sQ-pLN"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="Foa-xc-u9R" id="w1B-Gc-Of8"/>
+                        <outlet property="filterButton" destination="Nt7-LR-N2l" id="kBR-ey-55t"/>
                         <outlet property="searchBar" destination="yh4-PQ-WHW" id="XbX-qI-1l5"/>
                         <outlet property="tableView" destination="D9v-MY-Agn" id="i9l-sc-uP5"/>
                     </connections>

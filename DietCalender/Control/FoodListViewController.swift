@@ -9,6 +9,7 @@
 import UIKit
 import ChameleonFramework
 import RealmSwift
+import FontAwesome_swift
 
 class FoodListViewController: UIViewController {
 
@@ -19,6 +20,10 @@ class FoodListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
+    @IBOutlet weak var backButton: UIBarButtonItem!
+    @IBOutlet weak var filterButton: UIBarButtonItem!
+    
+    
     // TODO:- vars 
     
     
@@ -28,6 +33,7 @@ class FoodListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        drawButtons()
         self.tableView.contentInset.top = 5.0
         
         // assign deletegates
@@ -41,6 +47,14 @@ class FoodListViewController: UIViewController {
         
         // TODO:- configure looks
         self.loadData()
+    }
+    
+    func drawButtons() {
+        backButton.title = String.fontAwesomeIcon(name: FontAwesome.angleLeft)
+        backButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 25.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+        
+        filterButton.title = String.fontAwesomeIcon(name: FontAwesome.filter)
+        filterButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
     }
     
     // TODO:- load foods 
