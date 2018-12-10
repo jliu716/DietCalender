@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     content.sound = UNNotificationSound.defaultCritical
                     
                     //it will be triggered after 20 hours
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600 * 20, repeats: false)
                     
                     //getting the notification request
                     let request = UNNotificationRequest(identifier: "\(notificationID)", content: content, trigger: trigger)
