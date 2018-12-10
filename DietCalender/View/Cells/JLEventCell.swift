@@ -27,6 +27,8 @@ class JLEventCell: SwipeTableViewCell {
             
             startTimeLabel.text = dateFormatter.string(from: event.startTime)
             categoryLine.backgroundColor = event.isRated ? (event.isSafe ? UIColor.flatGreen : UIColor.flatRed) : UIColor.flatYellow
+            
+            self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
     

@@ -19,8 +19,6 @@ class FoodListViewController: UIViewController {
     // TODO:- ib outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var filterButton: UIBarButtonItem!
     
     
@@ -40,6 +38,7 @@ class FoodListViewController: UIViewController {
         self.searchBar.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         // register nibs
         let cellNib = UINib(nibName: "FoodStatsCell", bundle: Bundle.main)
@@ -50,9 +49,6 @@ class FoodListViewController: UIViewController {
     }
     
     func drawButtons() {
-        backButton.title = String.fontAwesomeIcon(name: FontAwesome.angleLeft)
-        backButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 25.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
-        
         filterButton.title = String.fontAwesomeIcon(name: FontAwesome.filter)
         filterButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
     }
@@ -105,7 +101,6 @@ class FoodListViewController: UIViewController {
 
 extension FoodListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(foodGroup.count)
         return foodGroup.count
     }
     
@@ -131,7 +126,6 @@ extension FoodListViewController: UITableViewDataSource {
         cell.unsafeScoreLabel.text = "\(unsafeCount ?? 0)"
         
         // cell appearance
-//        print(safeCount)
         if ("\(safeCount ?? 0)" == "0") {
             cell.safeScoreLabel.backgroundColor = UIColor.white
             cell.safeScoreLabel.layer.borderWidth = 1

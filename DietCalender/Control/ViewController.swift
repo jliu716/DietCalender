@@ -86,7 +86,10 @@ class ViewController: UIViewController {
         let gesturer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gesture:)))
         calendarView.addGestureRecognizer(gesturer)
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        
+//        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     func drawButtons() {
@@ -143,7 +146,6 @@ class ViewController: UIViewController {
             let startOfToday = Calendar.current.startOfDay(for: Date())
             let diffInDays : Int = Calendar.current.dateComponents([.day], from: startOfToday, to:selectedDate).day!
             newItem.startTime = Calendar.current.date(byAdding: .day, value: diffInDays, to: Date()) ?? Date()
-            
             self.saveSomeObject(obejct: newItem)
         })
         // action:NO
@@ -389,7 +391,7 @@ extension ViewController: JTAppleCalendarViewDelegate {
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         configureCell(view: cell, cellState: cellState)
-                
+        
         tableView.reloadData()
         tableView.contentOffset = CGPoint()
         
@@ -428,10 +430,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
     
     // MARK:- table view cell interactions
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let schedule = events[indexPath.row]
-        
-        print(schedule)
-        print("schedule selected")
+//        let schedule = events[indexPath.row]
+//        print("schedule selected")
     }
     
 //    // MARK:-expansion
@@ -472,7 +472,8 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
             
             do {
                 try self.realm.write({ 
-                     event.isSafe = !event.isSafe
+                    event.isSafe = !event.isSafe
+                    event.isRated = true
                 })
                 defer {
                     tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
@@ -481,14 +482,30 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
             }catch{
                 print("Unable to flag this event due to: \n \(error)")
             }
-           
-            
         }
         flagAction.hidesWhenSelected = true
         flagAction.image = UIImage(named: "flag")
         flagAction.backgroundColor = (event.isSafe ?  UIColor.flatRed : UIColor.flatGreen)
         
-        return [deleteAction, flagAction]
+        let flagActionSafe = SwipeAction(style: .default, title: nil) { (action, indexPath) in
+            do {
+                try self.realm.write({
+                    event.isSafe = true
+                    event.isRated = true
+                })
+                defer {
+                    tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+                    self.calendarView.reloadData()
+                }
+            }catch{
+                print("Unable to flag this event due to: \n \(error)")
+            }
+        }
+        flagActionSafe.hidesWhenSelected = true
+        flagActionSafe.image = UIImage(named: "flag")
+        flagActionSafe.backgroundColor = UIColor.flatGreen
+        
+        return event.isRated ? [deleteAction, flagAction] : [deleteAction, flagAction, flagActionSafe]
     }
 }
 

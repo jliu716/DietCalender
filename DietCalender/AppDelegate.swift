@@ -44,9 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillResignActive(_ application: UIApplication) {
         // schedule notifications for tomorrow
-        
-        scheduleNotificationForTomorrow()
-        
+        self.scheduleNotificationForTomorrow()
     }
     
     // MARK:- HANDLE NOTIFICATIONS
@@ -56,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         do {
             let realm = try Realm()
             // find latest unrated food entry
-            if let foodLast = realm.objects(Event.self).filter(NSPredicate(format: "isRated == NO")).sorted(byKeyPath: "startTime").first {
+            if let foodLast = realm.objects(Event.self).filter(NSPredicate(format: "isRated == NO")).sorted(byKeyPath: "startTime").last {
                 // is it today
                 if (NSCalendar.current.isDateInToday(foodLast.startTime)) {
                     food = foodLast.title
@@ -72,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     content.sound = UNNotificationSound.defaultCritical
                     
                     //it will be triggered after 20 hours
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600*20, repeats: false)
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
                     
                     //getting the notification request
                     let request = UNNotificationRequest(identifier: "\(notificationID)", content: content, trigger: trigger)
@@ -136,6 +134,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationDidBecomeActive(_ application: UIApplication) {
         print("application becomes active!")
         UIApplication.shared.applicationIconBadgeNumber = 0
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests { requests in
+            if requests.count > 0 {
+                print("There is already notification scheduled!")
+                center.removeAllPendingNotificationRequests()
+            }
+            
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
