@@ -254,19 +254,6 @@ extension ViewController {
 // MARK: CalendarCell's ui config
 extension ViewController {
     
-    func clearNotificationBadgeForDate(date : Date) {
-        let startDate = date
-        let endDate = NSCalendar.current.date(byAdding: .hour, value: 24, to: startDate)
-        let events = realm.objects(Event.self).filter(NSPredicate(format: "%@ < startTime AND startTime < %@ AND isRated == NO", startDate as CVarArg, endDate! as CVarArg))
-        do {
-            try realm.write {
-                events.forEach({ (x) in
-                    x.isRated = true
-                })
-            }
-        }catch{}
-    }
-    
     func numberOfUnratedEntriesForDate(date : Date) -> Int {
         let startDate = date
         let endDate = NSCalendar.current.date(byAdding: .hour, value: 24, to: startDate)
@@ -402,10 +389,7 @@ extension ViewController: JTAppleCalendarViewDelegate {
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         configureCell(view: cell, cellState: cellState)
-        
-        // TODO:-clear the notification label if is on
-        clearNotificationBadgeForDate(date : date)
-        
+                
         tableView.reloadData()
         tableView.contentOffset = CGPoint()
         
