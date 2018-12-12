@@ -134,19 +134,23 @@ class ViewController: UIViewController {
     // MARK:- IB Actions
     @IBAction func addButtonPressed(_ sender: Any) {
         var input = UITextField()
-        let alert = UIAlertController(title: "What did you eat?", message: "Enter name of the food", preferredStyle: .alert)
+        let alert = UIAlertController(title: "What did you eat?", message: "Enter name of the food(can be separated by comma)", preferredStyle: .alert)
         
         // action:YES
-        let confirm = UIAlertAction(title: "Confirm", style: .default, handler: { (action) in    
-            // allocate item
-            let newItem = Event(value: ["isSafe":true,"title" : input.text!, "startTime": Date()])
+        let confirm = UIAlertAction(title: "Confirm", style: .default, handler: { (action) in
             
-            // find out time stamp for this date
-            let selectedDate : Date = self.calendarView.selectedDates[0] 
-            let startOfToday = Calendar.current.startOfDay(for: Date())
-            let diffInDays : Int = Calendar.current.dateComponents([.day], from: startOfToday, to:selectedDate).day!
-            newItem.startTime = Calendar.current.date(byAdding: .day, value: diffInDays, to: Date()) ?? Date()
-            self.saveSomeObject(obejct: newItem)
+            let items = input.text!.split(separator: ",")
+            for item in items {
+                // allocate item
+                let newItem = Event(value: ["isSafe":true,"title" : item, "startTime": Date()])
+                
+                // find out time stamp for this date
+                let selectedDate : Date = self.calendarView.selectedDates[0]
+                let startOfToday = Calendar.current.startOfDay(for: Date())
+                let diffInDays : Int = Calendar.current.dateComponents([.day], from: startOfToday, to:selectedDate).day!
+                newItem.startTime = Calendar.current.date(byAdding: .day, value: diffInDays, to: Date()) ?? Date()
+                self.saveSomeObject(obejct: newItem)
+            }
         })
         // action:NO
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
