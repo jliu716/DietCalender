@@ -92,6 +92,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
+    func intervalToScheduleANotification(timeStamp:Date) -> TimeInterval {
+        var defaultInterval : Double = 3600 * 20
+        
+        let six_today : Date = NSCalendar.current.date(bySettingHour: 6,minute: 0, second: 0, of: Date())!
+        let nine_today : Date = NSCalendar.current.date(bySettingHour: 9,minute: 0, second: 0, of: Date())!
+        let twelve_today : Date = NSCalendar.current.date(bySettingHour: 12,minute: 0, second: 0, of: Date())!
+        let twenty_today : Date = NSCalendar.current.date(bySettingHour: 20,minute: 0, second: 0, of: Date())!
+        
+        if six_today <= timeStamp && timeStamp < nine_today {
+            defaultInterval = 3600 * 8 // breakfast
+        }else if nine_today <= timeStamp && timeStamp < twelve_today {
+            defaultInterval = 3600 * 24 // lunch
+        }else if twelve_today <= timeStamp && timeStamp < twenty_today {
+            defaultInterval = 3600 * 20 // dinner
+        }
+        
+        return defaultInterval
+    }
+    
     func askForAllowNotification(){
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { (settings) in
