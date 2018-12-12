@@ -119,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         response.notification.request.content.badge
         response.notification.request.identifier
         */
-        print("user reacted to notification:\n\(response)")
+//        print("user reacted to notification:\n\(response)")
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -132,13 +132,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        print("application becomes active!")
         UIApplication.shared.applicationIconBadgeNumber = 0
         let center = UNUserNotificationCenter.current()
         center.getPendingNotificationRequests { requests in
-            if requests.count > 0 {
-                print("There is already notification scheduled!")
-                center.removeAllPendingNotificationRequests()
+            // check if notification is scheduled to today, if YES then cancel it
+            for req in requests {
+                if let dateIssued : Date = self.formatter.date(from: req.identifier) {
+                    if NSCalendar.current.isDateInToday(dateIssued){
+                        center.removePendingNotificationRequests(withIdentifiers: [req.identifier])
+                    }
+                }
             }
             
         }
