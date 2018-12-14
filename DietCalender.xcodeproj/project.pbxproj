@@ -16,6 +16,11 @@
 		849264B621A3EB2800AC39FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 849264B421A3EB2800AC39FA /* LaunchScreen.storyboard */; };
 		849264C121A3EB2800AC39FA /* DietCalenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849264C021A3EB2800AC39FA /* DietCalenderTests.swift */; };
 		849264CC21A3EB2800AC39FA /* DietCalenderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849264CB21A3EB2800AC39FA /* DietCalenderUITests.swift */; };
+		84D2085B21C35CF3002E9503 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2085A21C35CF3002E9503 /* MasterViewController.swift */; };
+		84D2085D21C3B629002E9503 /* MasterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2085C21C3B629002E9503 /* MasterTableViewCell.swift */; };
+		84D2086121C3BE3C002E9503 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2086021C3BE3C002E9503 /* SettingsViewController.swift */; };
+		84D2086321C3BE60002E9503 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2086221C3BE60002E9503 /* TutorialViewController.swift */; };
+		84D2086521C3BE84002E9503 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2086421C3BE84002E9503 /* AboutViewController.swift */; };
 		84D3CF1121B10F80005C04B7 /* FoodStatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D3CF0F21B10F80005C04B7 /* FoodStatsCell.swift */; };
 		84D3CF1221B10F80005C04B7 /* FoodStatsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D3CF1021B10F80005C04B7 /* FoodStatsCell.xib */; };
 		84EA0FDD21A51210001CEC00 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA0FDC21A51210001CEC00 /* Event.swift */; };
@@ -67,6 +72,11 @@
 		849264C721A3EB2800AC39FA /* DietCalenderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DietCalenderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		849264CB21A3EB2800AC39FA /* DietCalenderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietCalenderUITests.swift; sourceTree = "<group>"; };
 		849264CD21A3EB2800AC39FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84D2085A21C35CF3002E9503 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		84D2085C21C3B629002E9503 /* MasterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTableViewCell.swift; sourceTree = "<group>"; };
+		84D2086021C3BE3C002E9503 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		84D2086221C3BE60002E9503 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		84D2086421C3BE84002E9503 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		84D3CF0F21B10F80005C04B7 /* FoodStatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodStatsCell.swift; sourceTree = "<group>"; };
 		84D3CF1021B10F80005C04B7 /* FoodStatsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FoodStatsCell.xib; sourceTree = "<group>"; };
 		84EA0FDC21A51210001CEC00 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -185,6 +195,10 @@
 			children = (
 				849264AD21A3EB2700AC39FA /* ViewController.swift */,
 				8418F86721AE56B200E4176F /* FoodListViewController.swift */,
+				84D2085A21C35CF3002E9503 /* MasterViewController.swift */,
+				84D2086021C3BE3C002E9503 /* SettingsViewController.swift */,
+				84D2086221C3BE60002E9503 /* TutorialViewController.swift */,
+				84D2086421C3BE84002E9503 /* AboutViewController.swift */,
 			);
 			path = Control;
 			sourceTree = "<group>";
@@ -207,6 +221,7 @@
 				84F5566F21A50C3200CE4E6C /* JLEventCell.xib */,
 				84D3CF0F21B10F80005C04B7 /* FoodStatsCell.swift */,
 				84D3CF1021B10F80005C04B7 /* FoodStatsCell.xib */,
+				84D2085C21C3B629002E9503 /* MasterTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -366,6 +381,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DietCalender/Pods-DietCalender-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/ECSlidingViewController/ECSlidingViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/FontAwesome.swift/FontAwesome_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -375,6 +391,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ECSlidingViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FontAwesome_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -449,11 +466,16 @@
 			files = (
 				84F5567021A50C3200CE4E6C /* JLEventCell.swift in Sources */,
 				8418F86821AE56B200E4176F /* FoodListViewController.swift in Sources */,
+				84D2086121C3BE3C002E9503 /* SettingsViewController.swift in Sources */,
 				84EA0FE021A51528001CEC00 /* Extensions.swift in Sources */,
 				849264AE21A3EB2700AC39FA /* ViewController.swift in Sources */,
 				84F5566B21A50BD100CE4E6C /* JLCalenderCell.swift in Sources */,
+				84D2085D21C3B629002E9503 /* MasterTableViewCell.swift in Sources */,
+				84D2085B21C35CF3002E9503 /* MasterViewController.swift in Sources */,
 				84D3CF1121B10F80005C04B7 /* FoodStatsCell.swift in Sources */,
 				849264AC21A3EB2700AC39FA /* AppDelegate.swift in Sources */,
+				84D2086321C3BE60002E9503 /* TutorialViewController.swift in Sources */,
+				84D2086521C3BE84002E9503 /* AboutViewController.swift in Sources */,
 				84EA0FDD21A51210001CEC00 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

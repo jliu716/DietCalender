@@ -9,24 +9,24 @@
 import UIKit
 import RealmSwift
 import UserNotifications
+import ECSlidingViewController
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    var window: UIWindow?
+    var window : UIWindow?
     let formatter = DateFormatter()
     let dateFormatterString = "yyyy MM dd"
-    
-    
+    var slidingViewController : ECSlidingViewController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         // configure dateformatter
         formatter.dateFormat = dateFormatterString
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
         
         // Override point for customization after application launch.
-        
         do {
             _ = try Realm()
             print("Realm Database location: ",Realm.Configuration.defaultConfiguration.fileURL!)
@@ -39,7 +39,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let center = UNUserNotificationCenter.current()
         center.delegate = self
         
+        
+        // setup window with master detail view controllers
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        //
+        let storyboard : UIStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let topVC : ViewController = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        let underVC : MasterViewController = storyboard.instantiateViewController(withIdentifier: "MasterViewController") as! MasterViewController
+        
+        
+        let navigationController : UINavigationController = UINavigationController(rootViewController: topVC)
+        navigationController.navigationBar.barStyle = .default
+        let menu : UIBarButtonItem = UIBarButtonItem(title: "menu", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        topVC.navigationItem.leftBarButtonItem  = menu;
+        
+        self.slidingViewController = ECSlidingViewController.sliding(withTopViewController: navigationController)
+        self.slidingViewController?.underLeftViewController = underVC
+        
+        navigationController.view.addGestureRecognizer((self.slidingViewController?.panGesture)!)
+        
+        self.slidingViewController?.anchorRightPeekAmount  = 150.0;
+        self.slidingViewController?.anchorLeftRevealAmount = 250.0;
+        
+        self.window?.rootViewController = self.slidingViewController
+        
+        self.window?.makeKeyAndVisible()
+        
         return true
+    }
+    
+    @objc func anchorRight() {
+        self.slidingViewController?.anchorTopViewToRight(animated: true)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -151,6 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        
         UIApplication.shared.applicationIconBadgeNumber = 0
         let center = UNUserNotificationCenter.current()
         center.getPendingNotificationRequests { requests in
@@ -164,6 +196,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         }
+        
+        
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

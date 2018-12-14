@@ -32,7 +32,7 @@ class FoodListViewController: UIViewController {
         super.viewDidLoad()
         
         drawButtons()
-        self.tableView.contentInset.top = 5.0
+//        self.tableView.contentInset.top = 5.0
         
         // assign deletegates
         self.searchBar.delegate = self

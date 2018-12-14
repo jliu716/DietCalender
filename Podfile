@@ -17,8 +17,11 @@ target 'DietCalender' do
 
 	  # colorpalette
 	  pod 'ChameleonFramework/Swift', :git => 'https://github.com/ViccAlexander/Chameleon.git'
-	
+	  # icons
 	  pod 'FontAwesome.swift'
+
+	  # navigation
+	  pod 'ECSlidingViewController'
 
   target 'DietCalenderTests' do
     inherit! :search_paths
