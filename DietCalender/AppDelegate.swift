@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import UserNotifications
 import ECSlidingViewController
+import FontAwesome_swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -51,7 +52,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let navigationController : UINavigationController = UINavigationController(rootViewController: topVC)
         navigationController.navigationBar.barStyle = .default
-        let menu : UIBarButtonItem = UIBarButtonItem(title: "menu", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        navigationController.navigationBar.tintColor = UIColor.black
+        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
         topVC.navigationItem.leftBarButtonItem  = menu;
         
         self.slidingViewController = ECSlidingViewController.sliding(withTopViewController: navigationController)

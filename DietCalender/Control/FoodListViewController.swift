@@ -32,14 +32,15 @@ class FoodListViewController: UIViewController {
         super.viewDidLoad()
         
         drawButtons()
-//        self.tableView.contentInset.top = 5.0
+        drawNavigationBar()
         
         // assign deletegates
         self.searchBar.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
+        self.tableView.contentInset.top = 5.0
+
         // register nibs
         let cellNib = UINib(nibName: "FoodStatsCell", bundle: Bundle.main)
         tableView.register(cellNib, forCellReuseIdentifier: "FoodCell")
@@ -51,6 +52,17 @@ class FoodListViewController: UIViewController {
     func drawButtons() {
         filterButton.title = String.fontAwesomeIcon(name: FontAwesome.filter)
         filterButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+    }
+    
+    func drawNavigationBar(){
+        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+        self.navigationItem.leftBarButtonItem = menu
+    }
+    
+    @objc func anchorRight() {
+        let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.anchorRight()
     }
     
     // TODO:- load foods 

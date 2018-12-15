@@ -78,7 +78,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         drawButtons()
+        drawNavigationBar()
+        
         setupViewNibs()
+        
         showTodayButton.target = self
         showTodayButton.action = #selector(showTodayWithAnimate)
         showToday(animate: false)
@@ -88,17 +91,22 @@ class ViewController: UIViewController {
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
-        
-//        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     func drawButtons() {
-//        let listImage : UIImage = UIImage.fontAwesomeIcon(name: FontAwesome.bars, style: FontAwesomeStyle.solid, textColor: UIColor.black, size: CGSize(width: 24, height: 24), backgroundColor: UIColor.clear)
-//        listButton.title = ""
-//        listButton.setBackgroundImage(listImage, for: UIControl.State.normal, barMetrics: UIBarMetrics.default)
-        
         listButton.title = String.fontAwesomeIcon(name: FontAwesome.bars)
         listButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+    }
+    
+    func drawNavigationBar(){
+        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+        self.navigationItem.leftBarButtonItem = menu
+    }
+    
+    @objc func anchorRight() {
+        let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.anchorRight()
     }
     
     @objc func handleLongPress(gesture : UILongPressGestureRecognizer) {

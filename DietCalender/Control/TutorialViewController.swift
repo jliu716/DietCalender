@@ -7,24 +7,24 @@
 //
 
 import UIKit
+import FontAwesome_swift
 
 class TutorialViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        drawNavigationBar()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func drawNavigationBar(){
+        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+        self.navigationItem.leftBarButtonItem = menu
     }
-    */
 
+    @objc func anchorRight() {
+        let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.anchorRight()
+    }
 }
