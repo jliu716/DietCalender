@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
     @IBOutlet weak var addButton: UIBarButtonItem!
-    @IBOutlet weak var listButton: UIBarButtonItem!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
@@ -96,6 +96,7 @@ class ViewController: UIViewController {
         menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
         menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 18.0, style: FontAwesomeStyle.solid)], for: UIControl.State.highlighted)
         self.navigationItem.leftBarButtonItem = menu
+        self.navigationController?.navigationBar.barTintColor = UIColor.flatYellow
     }
     
     @objc func anchorRight() {
@@ -169,10 +170,75 @@ class ViewController: UIViewController {
     }
     
     @IBAction func editButtonPressed(_ sender: Any) {
-        
+        if tableView.isEditing{
+            if tableView!.indexPathsForSelectedRows != nil {
+                presentActionSheet()
+            }else{
+                tableView.setEditing(false, animated: true)
+            }
+        }else{
+            tableView.setEditing(true, animated: true)
+        }
+        let button : UIBarButtonItem = sender as! UIBarButtonItem
+        button.title = tableView.isEditing ? "Action" : "Edit"
     }
     
-    
+    func presentActionSheet(){
+        // TODO:- present alert as action sheet
+        let alert = UIAlertController(title: "Bulk Action", message: nil, preferredStyle: .actionSheet)
+        
+        // action:YES
+        let white = UIAlertAction(title: "Whitelist", style: .default, handler: { (action) in
+            do {
+                try self.realm.write({
+                    for x : IndexPath in (self.tableView?.indexPathsForSelectedRows)! {
+                        let event = self.events[x.row]
+                        event.isRated = true
+                        event.isSafe = true
+                    }
+                    self.getSchedule()
+                })
+                self.tableView.setEditing(false, animated: true)
+            }catch{print("Unable to delete this event due to: \n \(error)")}
+        })
+        
+        let black = UIAlertAction(title: "Blacklist", style: .default, handler: { (action) in
+            do {
+                try self.realm.write({
+                    for x : IndexPath in (self.tableView?.indexPathsForSelectedRows)! {
+                        let event = self.events[x.row]
+                        event.isRated = true
+                        event.isSafe = false
+                    }
+                    self.getSchedule()
+                })
+                self.tableView.setEditing(false, animated: true)
+            }catch{print("Unable to delete this event due to: \n \(error)")}
+        })
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive, handler:{ (action) in
+            do {
+                try self.realm.write({
+                    for x : IndexPath in (self.tableView?.indexPathsForSelectedRows)! {
+                        let event = self.events[x.row]
+                        self.realm.delete(event)
+                    }
+                    self.getSchedule()
+                })
+                self.tableView.setEditing(false, animated: true)
+            }catch{print("Unable to delete this event due to: \n \(error)")}
+        })
+        
+        // action:NO
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(cancel)
+        alert.addAction(white)
+        alert.addAction(black)
+        alert.addAction(delete)
+        
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 
@@ -420,13 +486,15 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: scheduleCellIdentifier, for: indexPath) as! JLEventCell
-        cell.selectionStyle = .none
+        cell.selectionStyle = .blue
+        cell.tintColor = UIColor.flatYellow
         cell.event = events[indexPath.row]
         cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        editButton.isEnabled = (events.count != 0)
         return events.count
     }
     
@@ -436,17 +504,12 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
     
     // MARK:- table view cell interactions
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let schedule = events[indexPath.row]
-//        print("schedule selected")
+        let paths : [IndexPath] = tableView.indexPathsForSelectedRows ?? []
     }
     
-//    // MARK:-expansion
-//    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-//        var options = SwipeOptions()
-//        options.expansionStyle = .destructive
-//        options.transitionStyle = .border
-//        return options
-//    }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.none
+    }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         // initiate action when swipe from right
@@ -467,11 +530,6 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
         deleteAction.hidesWhenSelected = true
         deleteAction.image = UIImage(named: "trash")
         deleteAction.backgroundColor = UIColor.flatGrayDark
-        
-//        deleteAction.font = UIFont.fontAwesome(ofSize: 30, style: FontAwesomeStyle.solid)
-//        deleteAction.title = String.fontAwesomeIcon(name: FontAwesome.trash)
-//        deleteAction.textColor = UIColor.flatBlack
-//        deleteAction.backgroundColor = UIColor.flatWhite
         
         // flag
         let flagAction = SwipeAction(style: .default, title: nil) { action, indexPath in

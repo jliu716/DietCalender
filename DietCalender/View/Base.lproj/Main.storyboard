@@ -120,7 +120,7 @@
                                     <constraint firstAttribute="height" constant="1" id="RFn-p6-ewP"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dsb-ii-Mou">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dsb-ii-Mou">
                                 <rect key="frame" x="0.0" y="352" width="375" height="207"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -190,7 +190,7 @@
                     <connections>
                         <outlet property="addButton" destination="evB-kQ-HyQ" id="NUe-B0-G4e"/>
                         <outlet property="calendarView" destination="Vaa-MU-MnY" id="9xH-69-XtY"/>
-                        <outlet property="listButton" destination="X20-Vl-h2t" id="Xo2-yj-HSI"/>
+                        <outlet property="editButton" destination="X20-Vl-h2t" id="Xo2-yj-HSI"/>
                         <outlet property="separatorViewTopConstraint" destination="yt3-rs-AV6" id="hhh-iB-UL3"/>
                         <outlet property="showTodayButton" destination="mWI-W8-cES" id="BEf-YC-F0o"/>
                         <outlet property="tableView" destination="dsb-ii-Mou" id="jAT-Yx-eRg"/>
