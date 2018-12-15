@@ -73,7 +73,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     @objc func anchorRight() {
-        self.slidingViewController?.anchorTopViewToRight(animated: true)
+        let masterVisible : Bool = self.slidingViewController?.underLeftViewController?.view.isTopViewInWindow() ?? false
+        if masterVisible {
+            self.slidingViewController?.resetTopView(animated: true)
+        }else{
+            self.slidingViewController?.anchorTopViewToRight(animated: true)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
