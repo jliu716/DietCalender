@@ -77,9 +77,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        drawButtons()
-        drawNavigationBar()
-        
+        drawNavigationBar()        
         setupViewNibs()
         
         showTodayButton.target = self
@@ -91,11 +89,6 @@ class ViewController: UIViewController {
         
         self.tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
-    }
-    
-    func drawButtons() {
-        listButton.title = String.fontAwesomeIcon(name: FontAwesome.bars)
-        listButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
     }
     
     func drawNavigationBar(){
@@ -151,7 +144,7 @@ class ViewController: UIViewController {
             let items = input.text!.split(separator: ",")
             for item in items {
                 // allocate item
-                let newItem = Event(value: ["isSafe":true,"title" : item, "startTime": Date()])
+                let newItem = Event(value: ["isSafe":true,"title" : item.trimmingCharacters(in: CharacterSet.whitespaces).capitalized, "startTime": Date()])
                 
                 // find out time stamp for this date
                 let selectedDate : Date = self.calendarView.selectedDates[0]
@@ -175,8 +168,8 @@ class ViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func goToListView(_ sender: Any) {
-        self.performSegue(withIdentifier: "showFoodList", sender: self)
+    @IBAction func editButtonPressed(_ sender: Any) {
+        
     }
     
     
