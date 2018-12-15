@@ -92,8 +92,12 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let nav : UINavigationController = delegate.slidingViewController?.topViewController as! UINavigationController
         
-        nav.show(destVC, sender: self)
-        
+        if let topVC : String = nav.topViewController?.restorationIdentifier {
+            if topVC != vc {
+                nav.show(destVC, sender: self)
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
