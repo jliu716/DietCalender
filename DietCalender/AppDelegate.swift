@@ -190,11 +190,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+        // clear the icon badge number
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        // auto-tag events over 36 hours and unrated
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let expirateDate = NSCalendar.current.date(byAdding: .hour, value: -48, to: Date())
+                let expiraePredicate = NSPredicate(format: "startTime < %@ AND isRated == NO", expirateDate! as CVarArg)
+                let totalEvents : Results<Event> = realm.objects(Event.self).filter(expiraePredicate)
+                for x in totalEvents {
+                    x.isRated = true
+                }
+            }
+        } catch {}
+        
+        // check if notification is scheduled to today, if YES then cancel it
         let center = UNUserNotificationCenter.current()
         center.getPendingNotificationRequests { requests in
-            // check if notification is scheduled to today, if YES then cancel it
             for req in requests {
                 if let dateIssued : Date = self.formatter.date(from: req.identifier) {
                     if NSCalendar.current.isDateInToday(dateIssued){
@@ -204,8 +218,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         }
-        
-        
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
