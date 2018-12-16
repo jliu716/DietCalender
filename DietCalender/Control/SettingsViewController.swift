@@ -11,6 +11,9 @@ import FontAwesome_swift
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
