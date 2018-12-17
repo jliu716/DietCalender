@@ -95,6 +95,9 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         if let topVC : String = nav.topViewController?.restorationIdentifier {
             if topVC != vc {
                 nav.show(destVC, sender: self)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    delegate.slidingViewController?.resetTopView(animated: true)
+                }
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)

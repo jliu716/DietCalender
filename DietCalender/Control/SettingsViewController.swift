@@ -8,14 +8,18 @@
 
 import UIKit
 import FontAwesome_swift
+import StepSlider
+import ChameleonFramework
 
 class SettingsViewController: UITableViewController {
+    
+    @IBOutlet weak var testview: UIView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         drawNavigationBar()
+        drawStepSlider()
     }
     
     
@@ -25,6 +29,19 @@ class SettingsViewController: UITableViewController {
         menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 18.0, style: FontAwesomeStyle.solid)], for: UIControl.State.highlighted)
 
         self.navigationItem.leftBarButtonItem = menu
+    }
+    
+    func drawStepSlider(){
+        let slider : StepSlider = StepSlider.init(frame: CGRect(x: 10, y: 10, width: testview.frame.size.width-20.0, height: 44))
+        slider.maxCount = 4
+        slider.index = 1
+        slider.trackColor = UIColor.flatWhite
+        slider.sliderCircleImage = UIImage(named: "Circle-Border")
+        slider.labels = ["12H", "20H", "24H", "48H"]
+        slider.labelColor = UIColor.darkText
+        slider.adjustLabel = true
+        
+        testview.addSubview(slider)
     }
     
     @objc func anchorRight() {

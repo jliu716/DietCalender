@@ -23,6 +23,9 @@ target 'DietCalender' do
 	  # navigation
 	  pod 'ECSlidingViewController'
 
+	  # step slider
+	  pod 'StepSlider'
+
   target 'DietCalenderTests' do
     inherit! :search_paths
     # Pods for testing

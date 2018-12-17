@@ -10,6 +10,7 @@ PODS:
   - Realm/Headers (3.11.2)
   - RealmSwift (3.11.2):
     - Realm (= 3.11.2)
+  - StepSlider (1.3.0)
   - SwipeCellKit (2.5.0)
 
 DEPENDENCIES:
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - FontAwesome.swift
   - JTAppleCalendar (from `https://github.com/patchthecode/JTAppleCalendar.git`, branch `master`)
   - RealmSwift
+  - StepSlider
   - SwipeCellKit
 
 SPEC REPOS:
@@ -26,6 +28,7 @@ SPEC REPOS:
     - FontAwesome.swift
     - Realm
     - RealmSwift
+    - StepSlider
     - SwipeCellKit
 
 EXTERNAL SOURCES:
@@ -50,8 +53,9 @@ SPEC CHECKSUMS:
   JTAppleCalendar: abb30678f42a4ef8a340a932b1dcb8c85a33dac2
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
   RealmSwift: 12b8262fc08020b47de4fd88eb3d5c9425b34ec7
+  StepSlider: c54e471186f29c6535260c9866178a3900f787e9
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
 
-PODFILE CHECKSUM: 66d8eab7e24299a495b6a6b819319b8f0ff21dfd
+PODFILE CHECKSUM: 28776cb53318822e3a458ae66683f989e101f86a
 
 COCOAPODS: 1.5.3
