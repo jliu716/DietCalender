@@ -9,9 +9,7 @@
 import UIKit
 import FontAwesome_swift
 
-class SettingsViewController: UIViewController {
-
-    @IBOutlet weak var tableView: UITableView!
+class SettingsViewController: UITableViewController {
     
     
     override func viewDidLoad() {
