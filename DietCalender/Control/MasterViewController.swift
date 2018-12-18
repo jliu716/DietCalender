@@ -51,18 +51,18 @@ class MasterViewController: UIViewController, UITableViewDataSource, UITableView
         
         switch section {
         case 0:
-            return "User Data"
+            return "   User Data"
         case 1:
-            return "Settings"
+            return "   Settings"
         case 2:
-            return "Help"
+            return "   Help"
         default:
-            return "1"
+            return "   1"
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65.0
+        return 60.0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -13,8 +13,8 @@ import ChameleonFramework
 
 class SettingsViewController: UITableViewController {
     
-    @IBOutlet weak var testview: UIView!
-    
+    @IBOutlet weak var sliderViewOne: UIView!
+    @IBOutlet weak var sliderViewTwo: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,16 +32,29 @@ class SettingsViewController: UITableViewController {
     }
     
     func drawStepSlider(){
-        let slider : StepSlider = StepSlider.init(frame: CGRect(x: 10, y: 10, width: testview.frame.size.width-20.0, height: 44))
-        slider.maxCount = 4
-        slider.index = 1
-        slider.trackColor = UIColor.flatWhite
-        slider.sliderCircleImage = UIImage(named: "Circle-Border")
-        slider.labels = ["12H", "20H", "24H", "48H"]
-        slider.labelColor = UIColor.darkText
-        slider.adjustLabel = true
+        // auto-flag
+        let sliderOne : StepSlider = StepSlider.init(frame: CGRect(x: 10, y: 10, width: sliderViewOne.frame.size.width-20.0, height: 44))
+        sliderOne.maxCount = 4
+        sliderOne.index = 1
+        sliderOne.trackColor = UIColor.flatWhite
+        sliderOne.sliderCircleImage = UIImage(named: "Circle-Border")
+        sliderOne.labels = ["12H", "20H", "24H", "48H"]
+        sliderOne.labelColor = UIColor.darkText
+        sliderOne.adjustLabel = true
         
-        testview.addSubview(slider)
+        sliderViewOne.addSubview(sliderOne)
+        
+        // notfication
+        let sliderTwo : StepSlider = StepSlider.init(frame: CGRect(x: 10, y: 10, width: sliderViewOne.frame.size.width-20.0, height: 44))
+        sliderTwo.maxCount = 4
+        sliderTwo.index = 1
+        sliderTwo.trackColor = UIColor.flatWhite
+        sliderTwo.sliderCircleImage = UIImage(named: "Circle-Border")
+        sliderTwo.labels = ["12H", "16H", "20H", "24H"]
+        sliderTwo.labelColor = UIColor.darkText
+        sliderTwo.adjustLabel = true
+        
+        sliderViewTwo.addSubview(sliderTwo)
     }
     
     @objc func anchorRight() {
