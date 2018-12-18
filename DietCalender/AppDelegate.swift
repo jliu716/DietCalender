@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     let formatter = DateFormatter()
     let dateFormatterString = "yyyy MM dd"
     var slidingViewController : ECSlidingViewController?
+    let config : UserDefaults = UserDefaults.standard
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -158,7 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 print("Push not authorized yet")
                 //requesting for authorization
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
-                    print("Fail to get notification allowed")
+                    self.config.setValue(didAllow, forKey: Constants.Config.NotificationIsOn)
                 })
             }
             else

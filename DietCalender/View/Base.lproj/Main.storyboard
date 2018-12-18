@@ -394,6 +394,9 @@
                                                         </segment>
                                                         <segment title="Red"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="autoFlagSegmentFlipped:" destination="MNL-hG-9b9" eventType="valueChanged" id="kc0-Bd-tGh"/>
+                                                    </connections>
                                                 </segmentedControl>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Default flag for new entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEj-1v-E7o">
                                                     <rect key="frame" x="16" y="16" width="197" height="28"/>
@@ -453,6 +456,9 @@
                                                     <rect key="frame" x="310" y="15" width="49" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="onTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="notificationSwitchFlipped:" destination="MNL-hG-9b9" eventType="valueChanged" id="wuQ-k1-1zt"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -488,6 +494,8 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="autoFlagSegmentControl" destination="MI7-Js-Qhk" id="CXx-wq-YjD"/>
+                        <outlet property="notificationSwitch" destination="m8j-RO-XOG" id="N7K-jt-etR"/>
                         <outlet property="sliderViewOne" destination="uTM-yV-l2p" id="40j-h3-j6b"/>
                         <outlet property="sliderViewTwo" destination="MV0-al-f6y" id="M7O-0w-skP"/>
                     </connections>
