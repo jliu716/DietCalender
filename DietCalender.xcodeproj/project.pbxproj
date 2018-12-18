@@ -16,6 +16,7 @@
 		849264B621A3EB2800AC39FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 849264B421A3EB2800AC39FA /* LaunchScreen.storyboard */; };
 		849264C121A3EB2800AC39FA /* DietCalenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849264C021A3EB2800AC39FA /* DietCalenderTests.swift */; };
 		849264CC21A3EB2800AC39FA /* DietCalenderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849264CB21A3EB2800AC39FA /* DietCalenderUITests.swift */; };
+		84CA451621C89616001E2EEC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CA451521C89616001E2EEC /* Constants.swift */; };
 		84D2085B21C35CF3002E9503 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2085A21C35CF3002E9503 /* MasterViewController.swift */; };
 		84D2085D21C3B629002E9503 /* MasterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2085C21C3B629002E9503 /* MasterTableViewCell.swift */; };
 		84D2086121C3BE3C002E9503 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D2086021C3BE3C002E9503 /* SettingsViewController.swift */; };
@@ -72,6 +73,7 @@
 		849264C721A3EB2800AC39FA /* DietCalenderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DietCalenderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		849264CB21A3EB2800AC39FA /* DietCalenderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietCalenderUITests.swift; sourceTree = "<group>"; };
 		849264CD21A3EB2800AC39FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84CA451521C89616001E2EEC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		84D2085A21C35CF3002E9503 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		84D2085C21C3B629002E9503 /* MasterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterTableViewCell.swift; sourceTree = "<group>"; };
 		84D2086021C3BE3C002E9503 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			children = (
 				84EA0FDF21A51528001CEC00 /* Extensions.swift */,
 				84EA0FDC21A51210001CEC00 /* Event.swift */,
+				84CA451521C89616001E2EEC /* Constants.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				84D3CF1121B10F80005C04B7 /* FoodStatsCell.swift in Sources */,
 				849264AC21A3EB2700AC39FA /* AppDelegate.swift in Sources */,
 				84D2086321C3BE60002E9503 /* TutorialViewController.swift in Sources */,
+				84CA451621C89616001E2EEC /* Constants.swift in Sources */,
 				84D2086521C3BE84002E9503 /* AboutViewController.swift in Sources */,
 				84EA0FDD21A51210001CEC00 /* Event.swift in Sources */,
 			);

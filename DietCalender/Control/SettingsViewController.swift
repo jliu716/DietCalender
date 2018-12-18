@@ -16,6 +16,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var sliderViewOne: UIView!
     @IBOutlet weak var sliderViewTwo: UIView!
     
+    let config : UserDefaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         drawNavigationBar()
