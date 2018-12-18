@@ -107,11 +107,15 @@ class SettingsViewController: UITableViewController {
     
     // MARK:- handle IB Actions
     @IBAction func autoFlagSegmentFlipped(_ sender: Any) {
-        
+        let segmentControl = sender as! UISegmentedControl
+        let asSafe : Bool = segmentControl.selectedSegmentIndex == 0
+        self.config.setValue(asSafe, forKey: Constants.Config.AutoFlagAsSafe)
     }
     
     @IBAction func notificationSwitchFlipped(_ sender: Any) {
-        
+        let switchControl = sender as! UISwitch
+        let isOn : Bool = switchControl.isOn
+        self.config.setValue(isOn, forKey: Constants.Config.NotificationIsOn)
     }
     
 
