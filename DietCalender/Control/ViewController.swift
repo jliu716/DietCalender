@@ -136,7 +136,10 @@ class ViewController: UIViewController {
     
     // MARK:- IB Actions
     @IBAction func addButtonPressed(_ sender: Any) {
-        var input = UITextField()
+        var input : UITextField = UITextField()
+        input.spellCheckingType = .yes
+        input.autocorrectionType = .yes
+        
         let alert = UIAlertController(title: "What did you eat?", message: "Enter name of the food(can be separated by comma)", preferredStyle: .alert)
         
         // action:YES
