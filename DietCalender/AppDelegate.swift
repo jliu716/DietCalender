@@ -159,7 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 print("Push not authorized yet")
                 //requesting for authorization
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
-                    self.config.setValue(didAllow, forKey: Constants.Config.NotificationIsOn)
+                    self.config.setValue(didAllow, forKey: Constants.NotificationIsOn)
                 })
             }
             else

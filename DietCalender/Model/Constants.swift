@@ -9,10 +9,12 @@
 import Foundation
 
 struct Constants {
-    struct Config {
-        static let AutoFlagAsSafe = "AutoFlagAsSafe"
-        static let AutoFlagWindow = "AutoFlagWindow"
-        static let NotificationIsOn = "NotificationIsOn"
-        static let NotificationInterval = "NotificationInterval"
-    }
+    static let SpellCheckIsOn = "SpellCheckIsOn"
+    static let AutoCorrectIsOn = "AutoCorrectIsOn"
+    
+    static let AutoFlagAsSafe = "AutoFlagAsSafe"
+    static let AutoFlagWindow = "AutoFlagWindow"
+    
+    static let NotificationIsOn = "NotificationIsOn"
+    static let NotificationInterval = "NotificationInterval"
 }

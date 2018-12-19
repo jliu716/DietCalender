@@ -29,26 +29,26 @@ class SettingsViewController: UITableViewController {
     }
     
     func reloadUserSettings(){
-        if (config.value(forKey: Constants.Config.AutoFlagAsSafe) == nil) {
-            config.setValue(true, forKey: Constants.Config.AutoFlagAsSafe)
+        if (config.value(forKey: Constants.AutoFlagAsSafe) == nil) {
+            config.setValue(true, forKey: Constants.AutoFlagAsSafe)
         }
         
-        if (config.value(forKey: Constants.Config.AutoFlagWindow) == nil) {
-            config.setValue(3, forKey: Constants.Config.AutoFlagWindow)
+        if (config.value(forKey: Constants.AutoFlagWindow) == nil) {
+            config.setValue(3, forKey: Constants.AutoFlagWindow)
         }
         
-        if (config.value(forKey: Constants.Config.NotificationIsOn) == nil) {
-            config.setValue(true, forKey: Constants.Config.NotificationIsOn)
+        if (config.value(forKey: Constants.NotificationIsOn) == nil) {
+            config.setValue(true, forKey: Constants.NotificationIsOn)
         }
         
-        if (config.value(forKey: Constants.Config.NotificationInterval) == nil) {
-            config.setValue(1, forKey: Constants.Config.NotificationInterval)
+        if (config.value(forKey: Constants.NotificationInterval) == nil) {
+            config.setValue(1, forKey: Constants.NotificationInterval)
         }
         
         defer{
-            autoFlagSegmentControl.selectedSegmentIndex = (config.value(forKey: Constants.Config.AutoFlagAsSafe) as! Bool == true) ? 0 : 1
+            autoFlagSegmentControl.selectedSegmentIndex = (config.value(forKey: Constants.AutoFlagAsSafe) as! Bool == true) ? 0 : 1
             
-            notificationSwitch.setOn(config.value(forKey: Constants.Config.NotificationIsOn) as! Bool, animated: false)
+            notificationSwitch.setOn(config.value(forKey: Constants.NotificationIsOn) as! Bool, animated: false)
         }
 
         
@@ -66,7 +66,7 @@ class SettingsViewController: UITableViewController {
         // auto-flag
         let sliderOne : StepSlider = StepSlider.init(frame: CGRect(x: 10, y: 10, width: sliderViewOne.frame.size.width-20.0, height: 44))
         sliderOne.maxCount = 4
-        sliderOne.index = config.value(forKey: Constants.Config.AutoFlagWindow) as! UInt
+        sliderOne.index = config.value(forKey: Constants.AutoFlagWindow) as! UInt
         sliderOne.trackColor = UIColor.flatWhite
         sliderOne.sliderCircleImage = UIImage(named: "Circle-Border")
         sliderOne.labels = ["12H", "20H", "24H", "48H"]
@@ -80,7 +80,7 @@ class SettingsViewController: UITableViewController {
         // notfication
         let sliderTwo : StepSlider = StepSlider.init(frame: CGRect(x: 10, y: 10, width: sliderViewOne.frame.size.width-20.0, height: 44))
         sliderTwo.maxCount = 4
-        sliderTwo.index = config.value(forKey: Constants.Config.NotificationInterval) as! UInt
+        sliderTwo.index = config.value(forKey: Constants.NotificationInterval) as! UInt
         sliderTwo.trackColor = UIColor.flatWhite
         sliderTwo.sliderCircleImage = UIImage(named: "Circle-Border")
         sliderTwo.labels = ["12H", "16H", "20H", "24H"]
@@ -93,11 +93,11 @@ class SettingsViewController: UITableViewController {
     }
     
     @objc func sliderOneChanged(sender:StepSlider) {
-        config.setValue(sender.index, forKey: Constants.Config.AutoFlagWindow)
+        config.setValue(sender.index, forKey: Constants.AutoFlagWindow)
     }
     
     @objc func sliderTwoChanged(sender:StepSlider) {
-        config.setValue(sender.index, forKey: Constants.Config.NotificationInterval)
+        config.setValue(sender.index, forKey: Constants.NotificationInterval)
     }
     
     @objc func anchorRight() {
@@ -109,13 +109,13 @@ class SettingsViewController: UITableViewController {
     @IBAction func autoFlagSegmentFlipped(_ sender: Any) {
         let segmentControl = sender as! UISegmentedControl
         let asSafe : Bool = segmentControl.selectedSegmentIndex == 0
-        self.config.setValue(asSafe, forKey: Constants.Config.AutoFlagAsSafe)
+        self.config.setValue(asSafe, forKey: Constants.AutoFlagAsSafe)
     }
     
     @IBAction func notificationSwitchFlipped(_ sender: Any) {
         let switchControl = sender as! UISwitch
         let isOn : Bool = switchControl.isOn
-        self.config.setValue(isOn, forKey: Constants.Config.NotificationIsOn)
+        self.config.setValue(isOn, forKey: Constants.NotificationIsOn)
     }
     
 
