@@ -18,6 +18,8 @@ class SettingsViewController: UITableViewController {
     
     @IBOutlet weak var autoFlagSegmentControl: UISegmentedControl!
     @IBOutlet weak var notificationSwitch: UISwitch!
+    @IBOutlet weak var spellCheckSwitch: UISwitch!
+    @IBOutlet weak var autoCorrectSwitch: UISwitch!
     
     let config : UserDefaults = UserDefaults.standard
     
@@ -29,6 +31,15 @@ class SettingsViewController: UITableViewController {
     }
     
     func reloadUserSettings(){
+        
+        if (config.value(forKey: Constants.SpellCheckIsOn) == nil) {
+            config.setValue(true, forKey: Constants.SpellCheckIsOn)
+        }
+        
+        if (config.value(forKey: Constants.AutoCorrectIsOn) == nil) {
+            config.setValue(true, forKey: Constants.AutoCorrectIsOn)
+        }
+        
         if (config.value(forKey: Constants.AutoFlagAsSafe) == nil) {
             config.setValue(true, forKey: Constants.AutoFlagAsSafe)
         }
@@ -46,6 +57,10 @@ class SettingsViewController: UITableViewController {
         }
         
         defer{
+            spellCheckSwitch.setOn(config.value(forKey: Constants.SpellCheckIsOn) as! Bool, animated: false)
+            
+            autoCorrectSwitch.setOn(config.value(forKey: Constants.AutoCorrectIsOn) as! Bool, animated: false)
+            
             autoFlagSegmentControl.selectedSegmentIndex = (config.value(forKey: Constants.AutoFlagAsSafe) as! Bool == true) ? 0 : 1
             
             notificationSwitch.setOn(config.value(forKey: Constants.NotificationIsOn) as! Bool, animated: false)
@@ -118,5 +133,16 @@ class SettingsViewController: UITableViewController {
         self.config.setValue(isOn, forKey: Constants.NotificationIsOn)
     }
     
+    @IBAction func spellCheckSwitchFlipped(_ sender: Any) {
+        let switchControl = sender as! UISwitch
+        let isOn : Bool = switchControl.isOn
+        self.config.setValue(isOn, forKey: Constants.SpellCheckIsOn)
+    }
+    
+    @IBAction func autoCorrectSwitchFlipped(_ sender: Any) {
+        let switchControl = sender as! UISwitch
+        let isOn : Bool = switchControl.isOn
+        self.config.setValue(isOn, forKey: Constants.AutoCorrectIsOn)
+    }
 
 }
