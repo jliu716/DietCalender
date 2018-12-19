@@ -518,7 +518,7 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
     
     // MARK:- table view cell interactions
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let paths : [IndexPath] = tableView.indexPathsForSelectedRows ?? []
+//        let paths : [IndexPath] = tableView.indexPathsForSelectedRows ?? []
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -546,25 +546,6 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
         deleteAction.backgroundColor = UIColor.flatGrayDark
         
         // flag
-        let flagAction = SwipeAction(style: .default, title: nil) { action, indexPath in
-            
-            do {
-                try self.realm.write({ 
-                    event.isSafe = !event.isSafe
-                    event.isRated = true
-                })
-                defer {
-                    tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
-                    self.calendarView.reloadData()
-                }
-            }catch{
-                print("Unable to flag this event due to: \n \(error)")
-            }
-        }
-        flagAction.hidesWhenSelected = true
-        flagAction.image = UIImage(named: "flag")
-        flagAction.backgroundColor = (event.isSafe ?  UIColor.flatRed : UIColor.flatGreen)
-        
         let flagActionSafe = SwipeAction(style: .default, title: nil) { (action, indexPath) in
             do {
                 try self.realm.write({
@@ -583,7 +564,25 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate, SwipeTabl
         flagActionSafe.image = UIImage(named: "flag")
         flagActionSafe.backgroundColor = UIColor.flatGreen
         
-        return event.isRated ? [deleteAction, flagAction] : [deleteAction, flagAction, flagActionSafe]
+        let flagActionUnsafe = SwipeAction(style: .default, title: nil) { (action, indexPath) in
+            do {
+                try self.realm.write({
+                    event.isSafe = false
+                    event.isRated = true
+                })
+                defer {
+                    tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+                    self.calendarView.reloadData()
+                }
+            }catch{
+                print("Unable to flag this event due to: \n \(error)")
+            }
+        }
+        flagActionUnsafe.hidesWhenSelected = true
+        flagActionUnsafe.image = UIImage(named: "flag")
+        flagActionUnsafe.backgroundColor = UIColor.flatRed
+        
+        return (event.isRated) ? [deleteAction, (event.isSafe ?  flagActionUnsafe : flagActionSafe)] : [deleteAction, flagActionUnsafe, flagActionSafe]
     }
 }
 
