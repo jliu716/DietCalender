@@ -16,6 +16,7 @@ import FontAwesome_swift
 class ViewController: UIViewController {
     
     let realm = try! Realm()
+    let config : UserDefaults = UserDefaults.standard
     
     // MARK: Outlets
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -137,9 +138,6 @@ class ViewController: UIViewController {
     // MARK:- IB Actions
     @IBAction func addButtonPressed(_ sender: Any) {
         var input : UITextField = UITextField()
-        input.spellCheckingType = .yes
-        input.autocorrectionType = .yes
-        
         let alert = UIAlertController(title: "What did you eat?", message: "Enter name of the food(can be separated by comma)", preferredStyle: .alert)
         
         // action:YES
@@ -166,6 +164,16 @@ class ViewController: UIViewController {
         
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "What did you eat?"
+            alertTextField.spellCheckingType =  .yes
+            alertTextField.autocorrectionType = .yes
+            
+            if let spellCheck : Bool = self.config.value(forKey: Constants.SpellCheckIsOn) as? Bool {
+                alertTextField.spellCheckingType = spellCheck ? .yes : .no
+            }
+            
+            if let autoCorrect : Bool = self.config.value(forKey: Constants.AutoCorrectIsOn) as? Bool {
+                alertTextField.autocorrectionType = autoCorrect ? .yes : .no
+            }
             input = alertTextField
         }
         
