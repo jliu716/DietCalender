@@ -146,7 +146,10 @@ class ViewController: UIViewController {
             let items = input.text!.split(separator: ",")
             for item in items {
                 // allocate item
-                let newItem = Event(value: ["isSafe":true,"title" : item.trimmingCharacters(in: CharacterSet.whitespaces).capitalized, "startTime": Date()])
+                let newItem : Event = Event(value: ["isSafe":true,"title" : item.trimmingCharacters(in: CharacterSet.whitespaces).capitalized, "startTime": Date()])
+                if let asSafe : Bool = self.config.value(forKey: Constants.AutoFlagAsSafe) as? Bool {
+                    newItem.isSafe = asSafe
+                }
                 
                 // find out time stamp for this date
                 let selectedDate : Date = self.calendarView.selectedDates[0]
