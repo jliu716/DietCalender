@@ -84,7 +84,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillResignActive(_ application: UIApplication) {
         // schedule notifications for tomorrow
-        self.scheduleNotificationForTomorrow()
+        if let notificationIsOn : Bool = config.value(forKey: Constants.NotificationIsOn) as? Bool {
+            if notificationIsOn {
+                self.scheduleNotificationForTomorrow()
+            }else{
+                print("will not schedule any notification")
+            }
+        }
     }
     
     // MARK:- HANDLE NOTIFICATIONS
@@ -110,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     content.sound = UNNotificationSound.defaultCritical
                     
                     //it will be triggered after 20 hours
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600 * 20, repeats: false)
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600 * self.getNotificationWindow() - Date().timeIntervalSince(foodLast.startTime), repeats: false)
                     
                     //getting the notification request
                     let request = UNNotificationRequest(identifier: "\(notificationID)", content: content, trigger: trigger)
@@ -198,7 +204,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         do {
             let realm = try Realm()
             try realm.write {
-                let expirateDate = NSCalendar.current.date(byAdding: .hour, value: -48, to: Date())
+                let expirateDate = NSCalendar.current.date(byAdding: .hour, value: self.getAutoFlagWindow(), to: Date())
                 let expiraePredicate = NSPredicate(format: "startTime < %@ AND isRated == NO", expirateDate! as CVarArg)
                 let totalEvents : Results<Event> = realm.objects(Event.self).filter(expiraePredicate)
                 for x in totalEvents {
@@ -219,6 +225,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         }
+    }
+    
+    func getAutoFlagWindow() -> Int {
+        var window = -1 * 48
+        guard let windowIndex = config.value(forKey: Constants.AutoFlagWindow) as? Int else { return window }
+            
+        switch windowIndex {
+        case 0:
+            window = -1 * 12
+        case 1:
+            window = -1 * 20
+        case 2:
+            window = -1 * 24
+        case 3:
+            window = -1 * 48
+        default:
+            return window
+        }
+        return window
+    }
+
+    func getNotificationWindow() -> Double {
+        var window : Double = 48
+        guard let windowIndex = config.value(forKey: Constants.NotificationInterval) as? Int else { return window }
+        
+        switch windowIndex {
+        case 0:
+            window = 12
+        case 1:
+            window = 16
+        case 2:
+            window = 20
+        case 3:
+            window = 24
+        default:
+            return window
+        }
+        return window
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
