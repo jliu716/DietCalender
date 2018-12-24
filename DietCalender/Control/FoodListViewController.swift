@@ -11,7 +11,7 @@ import ChameleonFramework
 import RealmSwift
 import FontAwesome_swift
 
-class FoodListViewController: UIViewController {
+class FoodListViewController: SlidingTopViewController {
 
     // 
     let realm = try! Realm()
@@ -32,7 +32,6 @@ class FoodListViewController: UIViewController {
         super.viewDidLoad()
         
         drawButtons()
-        drawNavigationBar()
         
         // assign deletegates
         self.searchBar.delegate = self
@@ -52,18 +51,6 @@ class FoodListViewController: UIViewController {
     func drawButtons() {
         filterButton.title = String.fontAwesomeIcon(name: FontAwesome.filter)
         filterButton.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
-    }
-    
-    func drawNavigationBar(){
-        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
-        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
-        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 18.0, style: FontAwesomeStyle.solid)], for: UIControl.State.highlighted)
-        self.navigationItem.leftBarButtonItem = menu
-    }
-    
-    @objc func anchorRight() {
-        let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.anchorRight()
     }
     
     // TODO:- load foods 

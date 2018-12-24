@@ -15,7 +15,7 @@ class SettingsViewController: UITableViewController {
     
     @IBOutlet weak var sliderViewOne: UIView!
     @IBOutlet weak var sliderViewTwo: UIView!
-    
+    var freezingOverlay : UIView?
     @IBOutlet weak var autoFlagSegmentControl: UISegmentedControl!
     @IBOutlet weak var notificationSwitch: UISwitch!
     @IBOutlet weak var spellCheckSwitch: UISwitch!
@@ -26,6 +26,7 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         reloadUserSettings()
+        drawFreezingOverlay()
         drawNavigationBar()
         drawStepSlider()
     }
@@ -69,14 +70,6 @@ class SettingsViewController: UITableViewController {
         
     }
     
-    func drawNavigationBar(){
-        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
-        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
-        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 18.0, style: FontAwesomeStyle.solid)], for: UIControl.State.highlighted)
-
-        self.navigationItem.leftBarButtonItem = menu
-    }
-    
     func drawStepSlider(){
         // auto-flag
         let sliderOne : StepSlider = StepSlider.init(frame: CGRect(x: 10, y: 10, width: sliderViewOne.frame.size.width-20.0, height: 44))
@@ -115,11 +108,6 @@ class SettingsViewController: UITableViewController {
         config.setValue(sender.index, forKey: Constants.NotificationInterval)
     }
     
-    @objc func anchorRight() {
-        let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.anchorRight()
-    }
-    
     // MARK:- handle IB Actions
     @IBAction func autoFlagSegmentFlipped(_ sender: Any) {
         let segmentControl = sender as! UISegmentedControl
@@ -145,4 +133,57 @@ class SettingsViewController: UITableViewController {
         self.config.setValue(isOn, forKey: Constants.AutoCorrectIsOn)
     }
 
+}
+
+extension SettingsViewController {
+    
+    func drawNavigationBar(){
+        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 18.0, style: FontAwesomeStyle.solid)], for: UIControl.State.highlighted)
+        
+        self.navigationItem.leftBarButtonItem = menu
+    }
+    
+    func drawFreezingOverlay(){
+        freezingOverlay = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        freezingOverlay!.backgroundColor = UIColor(white: 0, alpha: 0.0)
+        let tap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleOverlayTap(gesture:)))
+        let pan : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handleOverlayPanLeft(gesture:)))
+        freezingOverlay!.addGestureRecognizer(tap)
+        freezingOverlay!.addGestureRecognizer(pan)
+        freezingOverlay!.tag = 0 // hidden
+    }
+    
+    @objc func anchorRight() {
+        let delegate : AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        // check if overlay has been initiated
+        if freezingOverlay?.tag == 0 {
+            self.view.addSubview(freezingOverlay!)
+            UIView.animate(withDuration: 0.5, animations: {
+                self.freezingOverlay!.backgroundColor = UIColor(white: 0, alpha: 0.25)
+            }) { (completed) in
+                self.freezingOverlay?.tag = 1
+            }
+        }else {
+            self.freezingOverlay?.tag = 0
+            UIView.animate(withDuration: 0.5, animations: {
+                self.freezingOverlay!.backgroundColor = UIColor(white: 0, alpha: 0.0)
+            }) { (completed) in
+                self.freezingOverlay?.removeFromSuperview()
+            }
+        }
+        delegate.anchorRight()
+    }
+    
+    @objc func handleOverlayTap(gesture : UITapGestureRecognizer){
+        anchorRight()
+    }
+    
+    @objc func handleOverlayPanLeft(gesture : UIPanGestureRecognizer){
+        if gesture.velocity(in: freezingOverlay).x < 0 && freezingOverlay!.tag == 1 {
+            anchorRight()
+        }
+    }
 }
