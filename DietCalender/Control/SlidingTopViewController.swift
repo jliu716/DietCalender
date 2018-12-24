@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import ChameleonFramework
+import FontAwesome_swift
 
 class SlidingTopViewController: UIViewController {
     
@@ -15,6 +17,15 @@ class SlidingTopViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         drawFreezingOverlay()
+        drawNavigationBar()
+    }
+    
+    func drawNavigationBar(){
+        let menu : UIBarButtonItem = UIBarButtonItem(title: String.fontAwesomeIcon(name: FontAwesome.bars), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.anchorRight))
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 20.0, style: FontAwesomeStyle.solid)], for: UIControl.State.normal)
+        menu.setTitleTextAttributes([NSAttributedString.Key.font:UIFont.fontAwesome(ofSize: 18.0, style: FontAwesomeStyle.solid)], for: UIControl.State.highlighted)
+        self.navigationItem.leftBarButtonItem = menu
+        self.navigationController?.navigationBar.barTintColor = UIColor.flatYellow
     }
     
     func drawFreezingOverlay(){
