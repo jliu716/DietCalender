@@ -184,6 +184,34 @@
 			path = DietCalenderUITests;
 			sourceTree = "<group>";
 		};
+		84EAD7D921D06DED00AC10F7 /* Master */ = {
+			isa = PBXGroup;
+			children = (
+				84D2085A21C35CF3002E9503 /* MasterViewController.swift */,
+			);
+			path = Master;
+			sourceTree = "<group>";
+		};
+		84EAD7DA21D06DFA00AC10F7 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				849264AD21A3EB2700AC39FA /* ViewController.swift */,
+				8418F86721AE56B200E4176F /* FoodListViewController.swift */,
+				84D2086021C3BE3C002E9503 /* SettingsViewController.swift */,
+				84D2086221C3BE60002E9503 /* TutorialViewController.swift */,
+				84D2086421C3BE84002E9503 /* AboutViewController.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		84EAD7DB21D06E0200AC10F7 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				84EAD7D721D0698500AC10F7 /* SlidingTopViewController.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		84F5566621A5087900CE4E6C /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,13 +225,9 @@
 		84F5566721A5088900CE4E6C /* Control */ = {
 			isa = PBXGroup;
 			children = (
-				849264AD21A3EB2700AC39FA /* ViewController.swift */,
-				8418F86721AE56B200E4176F /* FoodListViewController.swift */,
-				84D2085A21C35CF3002E9503 /* MasterViewController.swift */,
-				84D2086021C3BE3C002E9503 /* SettingsViewController.swift */,
-				84D2086221C3BE60002E9503 /* TutorialViewController.swift */,
-				84D2086421C3BE84002E9503 /* AboutViewController.swift */,
-				84EAD7D721D0698500AC10F7 /* SlidingTopViewController.swift */,
+				84EAD7D921D06DED00AC10F7 /* Master */,
+				84EAD7DA21D06DFA00AC10F7 /* Details */,
+				84EAD7DB21D06E0200AC10F7 /* Protocols */,
 			);
 			path = Control;
 			sourceTree = "<group>";
