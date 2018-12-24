@@ -60,9 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         self.slidingViewController = ECSlidingViewController.sliding(withTopViewController: navigationController)
         self.slidingViewController?.underLeftViewController = underVC
-        
-//        navigationController.view.addGestureRecognizer((self.slidingViewController?.panGesture)!)
-        
         self.slidingViewController?.anchorRightPeekAmount  = 150.0;
         self.slidingViewController?.anchorLeftRevealAmount = 250.0;
         
